@@ -1,119 +1,94 @@
-import { ReactElement, ChangeEvent, MouseEvent, useState, useEffect, useContext } from 'react'; // we need this to make JSX compile
+import {
+  ReactElement,
+  ChangeEvent,
+  MouseEvent,
+  useState,
+  useEffect,
+  useContext,
+} from "react"; // we need this to make JSX compile
 
-import { handleFileRead } from '../../configuration/filehandler'
+import { handleFileRead } from "../../configuration/filehandler";
 
-import { fieldItemType } from '../../configuration/configuration';
+import { formItemType } from "../../configuration/configuration";
 
-import * as S from './Form.styles';
-import { FormContext } from '../../context/FormContext';
-import Option from './inputTypes/Option';
+import { FormContext } from "../../context/FormContext";
+
+import Option from "./inputTypes/Option/Option";
+import InputTabs from "./inputTypes/Tabs/InputTabs";
+import TextInput from "./inputTypes/Text/TextInput";
+import FileInput from "./inputTypes/File/FileInput";
+import ButtonInput from "./inputTypes/Button/ButtonInput";
 
 type FormBuilderProps = {
-    field: fieldItemType
-}
+  field?: formItemType;
+};
 
+const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
+  const { formKeys, setKeyValue } = useContext(FormContext);
 
-const InputBuilder = ({field} : FormBuilderProps): ReactElement => {
+  const [fieldValue, setFieldValue] = useState<string>("");
 
-    const { formKeys, setKeyValue } = useContext(FormContext)
+  useEffect(() => {
+    setFieldValue(formKeys?.[field?.key || ""] || "");
+  }, [formKeys, field?.key]);
 
-    const [ fieldValue, setFieldValue ] = useState<string>('');
+  const handleFileSelected = async (
+    event: ChangeEvent<HTMLInputElement>
+  ): Promise<void> => {
+    const file: Blob =
+      (event.currentTarget.files && event.currentTarget.files[0]) || new Blob();
+    const result = await handleFileRead(file);
+    setKeyValue({ key: field?.key || "", value: result?.toString() || "" });
+    setFieldValue(result?.toString() || "");
+  };
 
-    const [ showPreview, setShowPreview ] = useState<boolean>(false);
+  const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setKeyValue({
+      key: field?.key || "",
+      value: event.currentTarget.value,
+    });
+    setFieldValue(event.currentTarget.value);
+  };
 
-    const togglePreview = (() => {
-        setShowPreview(!showPreview);
-    })
+  const handleClick = (_: MouseEvent<HTMLInputElement>) => {
+    console.log("you clicked ", field?.key);
+  };
 
-    useEffect(() => {
-        setFieldValue(formKeys?.[field.key] || '');
-    }, [formKeys, field.key]);
-
-    const handleFileSelected = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
-        const index: string | undefined = event.currentTarget.dataset['index'];
-        const file: Blob = (event.currentTarget.files && event.currentTarget.files[0]) || new Blob();
-        const result = await handleFileRead(file);
-        setKeyValue({key:index || '', value: result?.toString() || ''});
-        setFieldValue(result?.toString() || '');
-    }
-
-    const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setKeyValue({key:event.currentTarget.dataset['index'] || '', value: event.currentTarget.value});
-        setFieldValue(event.currentTarget.value);
-    }
-
-    const handleClick = (event: MouseEvent<HTMLInputElement>) => {
-        console.log('you clicked ', event.currentTarget.dataset['index']);
-    }
-
-    const buildInputType = (fieldParameters: fieldItemType): ReactElement[] => {
-        const InputField: ReactElement[] = [];
-        !(fieldParameters.inputType === 'button') && 
-            InputField.push(<S.InputLabel key="1">{fieldParameters.text}</S.InputLabel>);
-
-        switch(fieldParameters.inputType) {
-            case 'text':
-                InputField.push(<S.InputType
-                    key="2"
-                    type={fieldParameters.inputType}
-                    data-index={fieldParameters.key}
-                    onChange={handleTextChange}
-                    value={fieldValue}
-                />)
-                break;
-            case 'file':
-                InputField.push(<S.InputType 
-                    key="2"
-                    type={fieldParameters.inputType} 
-                    data-index={fieldParameters.key}
-                    onChange={handleFileSelected}
-                />)
-                break;
-            case 'button':
-                InputField.push(<S.InputType 
-                    key="2"
-                    type={fieldParameters.inputType} 
-                    data-index={fieldParameters.key}
-                    value={fieldParameters.text}
-                    onClick={handleClick}
-                />)
-                break;
-            case 'password':
-                InputField.push(<S.InputType 
-                    key="2"
-                    type={fieldParameters.inputType} 
-                    data-index={fieldParameters.key}
-                    onChange={handleTextChange}
-                    value={fieldValue}
-                />)
-                break;
-            case 'select':
-                InputField.push(
-                    <Option key="3" parameters={fieldParameters}/>
-                )
-                break;
-            default:
-                break;
-        }
-
-        (fieldParameters.inputType === 'file') &&
-            InputField.push(
-                <S.FilePreviewContainer key="4" >
-                    <div>
-                        <input type="checkbox" onChange={togglePreview} checked={showPreview}></input>
-                        <label>Show content?</label>
-                    </div>
-                    {showPreview && <S.FilePreview dangerouslySetInnerHTML={{__html: fieldValue }}></S.FilePreview>}
-                </S.FilePreviewContainer>
-            );
-
-        return (InputField);
-    }
-
-    return(
-    <>
-        {buildInputType(field)}
-    </>)
-}
+  switch (field?.inputType) {
+    case "text":
+    case "password":
+      return (
+        <TextInput
+          content={field}
+          value={fieldValue}
+          onChangeAction={handleTextChange}
+        />
+      );
+    case "file":
+      return (
+        <FileInput
+          content={field}
+          value={fieldValue}
+          onChangeAction={handleFileSelected}
+        />
+      );
+    case "button":
+      return <ButtonInput content={field} onClickAction={handleClick} />;
+    case "select":
+      return <Option parameters={field} />;
+    case "tabs":
+      return <InputTabs content={field} />;
+    case "tabscontent":
+      return (
+        <>
+          {field.fields?.map((el) => (
+            <InputBuilder key={el.key} field={el} />
+          ))}
+        </>
+      );
+    default:
+      return <></>;
+  }
+};
 
 export default InputBuilder;

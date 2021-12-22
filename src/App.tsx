@@ -1,16 +1,17 @@
-import './App.css';
-import Tabs from './components/tabs/Tabs';
-import FormContextProvider from './context/FormContext';
-import GlobalStyle from './styles/globalStyle';
+import "./App.css";
+import FormBuilder from "./components/form/FormBuilder";
+import FormContextProvider from "./context/FormContext";
+import GlobalStyle from "./styles/globalStyle";
 
+import { uploadConfiguration } from "./configuration/configuration";
 
 function App() {
-
   return (
     <div className="App">
-      <GlobalStyle/>
+      <GlobalStyle />
       <FormContextProvider>
-        <Tabs/>
+        {/* <Tabs/> */}
+        <FormBuilder fields={uploadConfiguration} />
       </FormContextProvider>
     </div>
   );

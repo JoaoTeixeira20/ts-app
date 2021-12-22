@@ -1,39 +1,32 @@
-import { ReactElement, useContext } from 'react'; // we need this to make JSX compile
+import { ReactElement, useContext } from "react"; // we need this to make JSX compile
 
-import { fieldItemType } from '../../configuration/configuration';
-import InputBuilder from './InputBuilder';
-
-import * as S from './Form.styles';
-import { FormContext } from '../../context/FormContext';
+import { fieldItemType } from "../../configuration/configuration";
+import InputBuilder from "./InputBuilder";
+import { FormContext } from "../../context/FormContext";
 
 type FormBuilderProps = {
-    fields: fieldItemType[]
-}
+  fields: fieldItemType[];
+};
 
+const FormBuilder = ({ fields }: FormBuilderProps): ReactElement => {
+  const { formKeys } = useContext(FormContext);
 
-const FormBuilder = ({fields} : FormBuilderProps): ReactElement => {
+  const checkstore = () => {
+    console.log(formKeys);
+  };
 
-    const { formKeys } = useContext(FormContext);
-
-    const checkstore = () => {
-      console.log(formKeys);
-    }
-
-    return (
-      <S.FormContainer>
-        <S.FormContent>
-          {fields && fields.length > 0 ? 
-          fields.map(field => {
-            return(
-            <S.FormLine key={field.key}>
-                <InputBuilder field={field} />
-            </S.FormLine>)
-          }) 
-          : <div>No fields</div>}
-        </S.FormContent>
-        <button onClick={checkstore}>check the store</button>
-      </S.FormContainer>
-    )
-}
+  return (
+    <>
+      {fields?.length > 0 ? (
+        fields.map((field) => {
+          return <InputBuilder key={field.key} field={field} />;
+        })
+      ) : (
+        <div>No fields</div>
+      )}
+      <button onClick={checkstore}>check the store</button>
+    </>
+  );
+};
 
 export default FormBuilder;
