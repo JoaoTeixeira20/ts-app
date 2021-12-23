@@ -1,28 +1,28 @@
-import { ChangeEvent, ReactElement } from "react"; // we need this to make JSX compile
+import { ChangeEvent, ReactElement, useState } from "react"; // we need this to make JSX compile
 
 import { formItemType } from "../../../../configuration/configuration";
 
-type textInputType = {
+type dateInputType = {
   content?: formItemType;
   value?: string;
   onChangeAction: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
-const TextInput = ({
+const DateInput = ({
   content,
   value,
   onChangeAction,
-}: textInputType): ReactElement => {
+}: dateInputType): ReactElement => {
   return (
     <div>
       <label>{content?.text}</label>
       <input
         type={content?.inputType}
-        value={value}
         onChange={onChangeAction}
+        value={value}
       ></input>
     </div>
   );
 };
 
-export default TextInput;
+export default DateInput;

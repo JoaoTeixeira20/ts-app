@@ -13,11 +13,13 @@ import { formItemType } from "../../configuration/configuration";
 
 import { FormContext } from "../../context/FormContext";
 
-import Option from "./inputTypes/Option/Option";
+import SelectInput from "./inputTypes/Select/SelectInput";
 import InputTabs from "./inputTypes/Tabs/InputTabs";
 import TextInput from "./inputTypes/Text/TextInput";
 import FileInput from "./inputTypes/File/FileInput";
 import ButtonInput from "./inputTypes/Button/ButtonInput";
+import CollapseInput from "./inputTypes/Collapse/CollapseInput";
+import DateInput from "./inputTypes/Date/DateInput";
 
 type FormBuilderProps = {
   field?: formItemType;
@@ -42,7 +44,9 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
     setFieldValue(result?.toString() || "");
   };
 
-  const handleTextChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleValueChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setKeyValue({
       key: field?.key || "",
       value: event.currentTarget.value,
@@ -57,11 +61,16 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
   switch (field?.inputType) {
     case "text":
     case "password":
+    case "email":
+    case "tel":
+    case "number":
+    case "search":
+    case "url":
       return (
         <TextInput
           content={field}
           value={fieldValue}
-          onChangeAction={handleTextChange}
+          onChangeAction={handleValueChange}
         />
       );
     case "file":
@@ -73,9 +82,16 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
         />
       );
     case "button":
+    case "submit":
       return <ButtonInput content={field} onClickAction={handleClick} />;
     case "select":
-      return <Option parameters={field} />;
+      return (
+        <SelectInput
+          parameters={field}
+          value={fieldValue}
+          onChangeAction={handleValueChange}
+        />
+      );
     case "tabs":
       return <InputTabs content={field} />;
     case "tabscontent":
@@ -85,6 +101,20 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
             <InputBuilder key={el.key} field={el} />
           ))}
         </>
+      );
+    case "collapse":
+      return <CollapseInput content={field} />;
+    case "date":
+    case "datetime-local":
+    case "month":
+    case "time":
+    case "week":
+      return (
+        <DateInput
+          content={field}
+          value={fieldValue}
+          onChangeAction={handleValueChange}
+        />
       );
     default:
       return <></>;
