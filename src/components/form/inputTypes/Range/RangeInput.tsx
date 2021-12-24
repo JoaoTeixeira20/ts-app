@@ -4,12 +4,13 @@ import { formItemType } from '../../../../configuration/configuration';
 
 type rangeInputType = {
   content?: formItemType;
-  value?: number;
+  value?: string | number | boolean;
   onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
 const RangeInput = ({
   content,
+  value,
   onChangeAction,
 }: rangeInputType): ReactElement => {
   const changeEvent = (event: SyntheticEvent<HTMLInputElement>) => {
@@ -19,7 +20,11 @@ const RangeInput = ({
   return (
     <>
       <label>{content?.text}</label>
-      <input type='range' onMouseUp={changeEvent}></input>
+      <input
+        type='range'
+        onChange={changeEvent}
+        value={(typeof value !== 'boolean' && value) || ''}
+      ></input>
     </>
   );
 };

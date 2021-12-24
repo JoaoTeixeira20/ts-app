@@ -8,7 +8,7 @@ import FormBuilder from '../../FormBuilder';
 
 type OptionType = {
   parameters: formItemType;
-  value?: string;
+  value?: string | number | boolean;
   onChangeAction: (event: SyntheticEvent<HTMLSelectElement>) => void;
 };
 

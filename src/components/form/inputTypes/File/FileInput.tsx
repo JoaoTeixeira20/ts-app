@@ -6,7 +6,7 @@ import * as S from './FileInput.styles';
 
 type textInputType = {
   content?: formItemType;
-  value?: string;
+  value?: string | number | boolean;
   onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
@@ -34,7 +34,13 @@ const FileInput = ({
       <S.FilePreviewContainer>
         {showPreview && (
           <S.FilePreview
-            dangerouslySetInnerHTML={{ __html: value || '' }}
+            dangerouslySetInnerHTML={{
+              __html:
+                (typeof value !== 'boolean' &&
+                  typeof value !== 'number' &&
+                  value) ||
+                '',
+            }}
           ></S.FilePreview>
         )}
       </S.FilePreviewContainer>

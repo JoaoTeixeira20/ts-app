@@ -4,7 +4,7 @@ import { formItemType } from '../../../../configuration/configuration';
 
 type dateInputType = {
   content?: formItemType;
-  value?: string;
+  value?: string | number | boolean;
   onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
@@ -19,7 +19,7 @@ const DateInput = ({
       <input
         type={content?.inputType}
         onChange={onChangeAction}
-        value={value}
+        value={(typeof value !== 'boolean' && value) || ''}
       ></input>
     </div>
   );

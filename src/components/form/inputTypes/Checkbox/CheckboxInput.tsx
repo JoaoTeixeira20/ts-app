@@ -4,11 +4,13 @@ import { formItemType } from '../../../../configuration/configuration';
 
 type checkboxInputType = {
   content?: formItemType;
+  value?: string | number | boolean;
   onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
 const CheckboxInput = ({
   content,
+  value,
   onChangeAction,
 }: checkboxInputType): ReactElement => {
   const checkBoxChangeAction = (event: SyntheticEvent<HTMLInputElement>) => {
@@ -18,7 +20,14 @@ const CheckboxInput = ({
 
   return (
     <div>
-      <input type='checkbox' onChange={checkBoxChangeAction}></input>
+      <input
+        type='checkbox'
+        onChange={checkBoxChangeAction}
+        checked={
+          (typeof value !== 'string' && typeof value !== 'number' && value) ||
+          false
+        }
+      ></input>
       <label>{content?.text}</label>
     </div>
   );

@@ -13,7 +13,7 @@ import * as S from './TextInput.styles';
 
 type textInputType = {
   content?: formItemType;
-  value?: string;
+  value?: string | number | boolean;
   onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
   onBlurAction: (event: SyntheticEvent<HTMLInputElement>) => void;
   onFocusAction: () => void;
@@ -37,7 +37,7 @@ const TextInput = ({
       <label>{content?.text}</label>
       <S.TextInput
         type={content?.inputType}
-        value={value}
+        value={(typeof value !== 'boolean' && value) || ''}
         onFocus={onFocusAction}
         onChange={onChangeAction}
         onBlur={onBlurAction}

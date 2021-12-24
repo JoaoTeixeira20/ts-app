@@ -35,7 +35,7 @@ type FormBuilderProps = {
 const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
   const { formKeys, setKeyValue } = useContext(FormContext);
 
-  const [fieldValue, setFieldValue] = useState<string>('');
+  const [fieldValue, setFieldValue] = useState<string | number | boolean>();
 
   const [validationParameters, setValidationParameters] =
     useState<validationStateType>();
@@ -170,10 +170,20 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
       );
     case 'checkbox':
       return (
-        <CheckboxInput content={field} onChangeAction={handleValueChange} />
+        <CheckboxInput
+          content={field}
+          onChangeAction={handleValueChange}
+          value={fieldValue}
+        />
       );
     case 'range':
-      return <RangeInput content={field} onChangeAction={handleValueChange} />;
+      return (
+        <RangeInput
+          content={field}
+          onChangeAction={handleValueChange}
+          value={fieldValue}
+        />
+      );
     default:
       return <></>;
   }

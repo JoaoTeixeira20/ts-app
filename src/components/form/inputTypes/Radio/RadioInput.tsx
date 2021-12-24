@@ -4,7 +4,7 @@ import { formItemType } from '../../../../configuration/configuration';
 
 type radioInputType = {
   content?: formItemType;
-  value?: string;
+  value?: string | number | boolean;
   onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
@@ -23,7 +23,7 @@ const RadioInput = ({
               checked={value === field?.value}
               name={content.key}
               onChange={onChangeAction}
-              value={field.value?.toString() || ''}
+              value={(typeof field.value !== 'boolean' && field.value) || ''}
             ></input>
             <label>{field.text}</label>
           </div>
