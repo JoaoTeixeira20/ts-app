@@ -37,7 +37,8 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
 
   const [fieldValue, setFieldValue] = useState<string>('');
 
-  const [valid, setValid] = useState<validationStateType>();
+  const [validationParameters, setValidationParameters] =
+    useState<validationStateType>();
 
   const handleValidation = (
     event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>
@@ -47,7 +48,16 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
       field?.validation?.validationMessages
     );
     console.log('im validating ', field?.key, 'with ', validityResult);
-    setValid(validityResult);
+    setValidationParameters(validityResult);
+  };
+
+  const cleanValidation = (
+    event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
+    setValidationParameters({
+      status: true,
+      message: '',
+    });
   };
 
   useEffect(() => {
@@ -101,8 +111,10 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
           value={fieldValue}
           onChangeAction={handleValueChange}
           onBlurAction={handleValidation}
+          onFocusAction={cleanValidation}
           pattern={field.validation?.pattern || ''}
           required={field.validation?.required || false}
+          validationParameters={validationParameters}
         />
       );
     case 'file':
