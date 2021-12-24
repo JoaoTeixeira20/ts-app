@@ -16,7 +16,7 @@ type textInputType = {
   value?: string;
   onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
   onBlurAction: (event: SyntheticEvent<HTMLInputElement>) => void;
-  onFocusAction: (event: SyntheticEvent<HTMLInputElement>) => void;
+  onFocusAction: () => void;
   pattern?: string;
   required?: boolean;
   validationParameters?: validationStateType;

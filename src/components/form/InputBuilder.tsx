@@ -51,9 +51,7 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
     setValidationParameters(validityResult);
   };
 
-  const cleanValidation = (
-    event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>
-  ): void => {
+  const cleanValidation = (): void => {
     setValidationParameters({
       status: true,
       message: '',
@@ -163,7 +161,13 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
         />
       );
     case 'radio':
-      return <RadioInput content={field} onChangeAction={handleValueChange} />;
+      return (
+        <RadioInput
+          content={field}
+          onChangeAction={handleValueChange}
+          value={fieldValue}
+        />
+      );
     case 'checkbox':
       return (
         <CheckboxInput content={field} onChangeAction={handleValueChange} />

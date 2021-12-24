@@ -4,11 +4,13 @@ import { formItemType } from '../../../../configuration/configuration';
 
 type radioInputType = {
   content?: formItemType;
+  value?: string;
   onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
 const RadioInput = ({
   content,
+  value,
   onChangeAction,
 }: radioInputType): ReactElement => {
   return (
@@ -18,9 +20,10 @@ const RadioInput = ({
           <div key={field.key}>
             <input
               type='radio'
-              checked={field.value === content?.value}
+              checked={value === field?.value}
               name={content.key}
               onChange={onChangeAction}
+              value={field.value?.toString() || ''}
             ></input>
             <label>{field.text}</label>
           </div>
