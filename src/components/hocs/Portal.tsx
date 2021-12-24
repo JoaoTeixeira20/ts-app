@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   --portal-height: 100vh;
   position: fixed;
   transform-origin: center center;
-  top: 50%; 
+  top: 50%;
   right: 50%;
   transform: translate(50%, -50%);
   display: flex;
@@ -168,7 +168,12 @@ const Wrapper = styled.div`
   }
 `;
 
-type AnimationTypesName = 'fromTop' | 'fromBottom' | 'fromLeft' | 'fromRight' | 'fadeIn';
+type AnimationTypesName =
+  | 'fromTop'
+  | 'fromBottom'
+  | 'fromLeft'
+  | 'fromRight'
+  | 'fadeIn';
 
 type AnimationClasses = {
   in: string;
@@ -243,7 +248,7 @@ const Portal = ({
       >
         {children}
       </Wrapper>,
-      document.body,
+      document.body
     )
   );
 };

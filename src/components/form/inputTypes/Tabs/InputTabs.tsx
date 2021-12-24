@@ -1,27 +1,27 @@
-import React, { ReactElement, MouseEvent, useEffect } from "react"; // we need this to make JSX compile
+import React, { ReactElement, SyntheticEvent, useEffect } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from "../../../../configuration/configuration";
+import { formItemType } from '../../../../configuration/configuration';
 
-import * as S from "./Tabs.styles";
-import InputBuilder from "../../InputBuilder";
+import * as S from './Tabs.styles';
+import InputBuilder from '../../InputBuilder';
 
 type tabsType = {
   content: formItemType;
 };
 
 const Tabs = ({ content }: tabsType): ReactElement => {
-  const [activeItem, setActiveItem] = React.useState<string | undefined>("");
+  const [activeItem, setActiveItem] = React.useState<string | undefined>('');
 
-  const changeItems = (event: MouseEvent<HTMLDivElement>): void => {
+  const changeItems = (event: SyntheticEvent<HTMLDivElement>): void => {
     const value = event.currentTarget.dataset;
-    setActiveItem(value["index"]);
+    setActiveItem(value['index']);
   };
 
   const isActiveItem = (activeItem: string | undefined, key: string): boolean =>
     activeItem === key;
 
   useEffect(() => {
-    setActiveItem(content.fields?.[0]?.key || "");
+    setActiveItem(content.fields?.[0]?.key || '');
   }, [content.fields]);
 
   return (

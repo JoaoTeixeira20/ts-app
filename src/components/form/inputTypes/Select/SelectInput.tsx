@@ -1,20 +1,19 @@
-import { ChangeEvent, ReactElement, useEffect, useState } from "react";
+import { SyntheticEvent, ReactElement, useEffect, useState } from 'react';
 import {
   formItemType,
   formType,
-} from "../../../../configuration/configuration";
-import * as S from "../../Form.styles";
-import FormBuilder from "../../FormBuilder";
+} from '../../../../configuration/configuration';
+import * as S from '../../Form.styles';
+import FormBuilder from '../../FormBuilder';
 
 type OptionType = {
   parameters: formItemType;
   value?: string;
-  onChangeAction: (event: ChangeEvent<HTMLSelectElement>) => void;
+  onChangeAction: (event: SyntheticEvent<HTMLSelectElement>) => void;
 };
 
 const SelectInput = ({
   parameters,
-  value,
   onChangeAction,
 }: OptionType): ReactElement => {
   const [active, setActive] = useState<string>();
@@ -23,16 +22,16 @@ const SelectInput = ({
     formType | undefined
   >();
 
-  const changeItems = (event: ChangeEvent<HTMLSelectElement>): void => {
+  const changeItems = (event: SyntheticEvent<HTMLSelectElement>): void => {
     const selectedIndex: number = event.currentTarget.selectedIndex;
-    const currentValue = event.target.options[selectedIndex].dataset["key"];
-    console.log("value is ", currentValue);
+    const currentValue =
+      event.currentTarget.options[selectedIndex].dataset['key'];
     setActive(currentValue);
     onChangeAction(event);
   };
 
   useEffect(() => {
-    !active && setActive(parameters.fields?.[0].key || "");
+    !active && setActive(parameters.fields?.[0].key || '');
     setAdditionalFields(
       parameters.fields?.find((field) => field.key === active)?.fields
     );
@@ -41,13 +40,7 @@ const SelectInput = ({
   return (
     <>
       <S.SelectType onChange={changeItems}>
-        {parameters.fields?.map((field) => {
-          return (
-            <option key={field.key} data-key={field.key} value={field.value}>
-              {field.text}
-            </option>
-          );
-        })}
+        <FormBuilder fields={parameters.fields} />
       </S.SelectType>
       <FormBuilder fields={additionalFields} />
     </>

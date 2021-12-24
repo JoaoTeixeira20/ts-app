@@ -1,10 +1,9 @@
-import { MouseEvent, ReactElement, useState } from "react"; // we need this to make JSX compile
+import { SyntheticEvent, ReactElement, useState } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from "../../../../configuration/configuration";
-import FormBuilder from "../../FormBuilder";
-import InputBuilder from "../../InputBuilder";
+import { formItemType } from '../../../../configuration/configuration';
+import FormBuilder from '../../FormBuilder';
 
-import * as S from "./CollapseInput.styles";
+import * as S from './CollapseInput.styles';
 
 type collapseInputType = {
   content?: formItemType;
@@ -13,7 +12,7 @@ type collapseInputType = {
 const CollapseInput = ({ content }: collapseInputType): ReactElement => {
   const [opened, setOpened] = useState<boolean>(false);
 
-  const toggleCollapse = (_: MouseEvent<HTMLDivElement>) => {
+  const toggleCollapse = (_: SyntheticEvent<HTMLDivElement>) => {
     setOpened(!opened);
   };
 

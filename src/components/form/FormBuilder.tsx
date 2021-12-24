@@ -1,7 +1,7 @@
-import { ReactElement, useContext } from "react"; // we need this to make JSX compile
+import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import { formType } from "../../configuration/configuration";
-import InputBuilder from "./InputBuilder";
+import { formType } from '../../configuration/configuration';
+import InputBuilder from './InputBuilder';
 
 type FormBuilderProps = {
   fields?: formType;

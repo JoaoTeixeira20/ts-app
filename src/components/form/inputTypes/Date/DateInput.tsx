@@ -1,11 +1,11 @@
-import { ChangeEvent, ReactElement, useState } from "react"; // we need this to make JSX compile
+import { SyntheticEvent, ReactElement } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from "../../../../configuration/configuration";
+import { formItemType } from '../../../../configuration/configuration';
 
 type dateInputType = {
   content?: formItemType;
   value?: string;
-  onChangeAction: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
 const DateInput = ({

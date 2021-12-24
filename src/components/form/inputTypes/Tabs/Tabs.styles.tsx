@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 type tabItemType = {
   isActive: boolean;
@@ -12,11 +12,11 @@ const TabsContainer = styled.div`
 
 const TabItem = styled.div<tabItemType>`
   border: ${({ isActive }) =>
-    isActive ? "2px solid black" : "1px solid gray"};
+    isActive ? '2px solid black' : '1px solid gray'};
   padding: 10px;
   cursor: pointer;
-  background-color: ${({ isActive }) => (isActive ? "#170F4F" : "#00BAC7")};
-  color: ${({ isActive }) => (isActive ? "white" : "black")};
+  background-color: ${({ isActive }) => (isActive ? '#170F4F' : '#00BAC7')};
+  color: ${({ isActive }) => (isActive ? 'white' : 'black')};
   border-radius: 6px 6px 0 0;
   font-weight: bold;
   user-select: none;

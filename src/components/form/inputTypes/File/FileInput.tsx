@@ -1,13 +1,13 @@
-import { ChangeEvent, ReactElement, useState } from "react"; // we need this to make JSX compile
+import { SyntheticEvent, ReactElement, useState } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from "../../../../configuration/configuration";
+import { formItemType } from '../../../../configuration/configuration';
 
-import * as S from "./FileInput.styles";
+import * as S from './FileInput.styles';
 
 type textInputType = {
   content?: formItemType;
   value?: string;
-  onChangeAction: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
 const FileInput = ({
@@ -26,7 +26,7 @@ const FileInput = ({
       <label>{content?.text}</label>
       <input type={content?.inputType} onChange={onChangeAction}></input>
       <input
-        type="checkbox"
+        type='checkbox'
         onChange={togglePreview}
         checked={showPreview}
       ></input>
@@ -34,7 +34,7 @@ const FileInput = ({
       <S.FilePreviewContainer>
         {showPreview && (
           <S.FilePreview
-            dangerouslySetInnerHTML={{ __html: value || "" }}
+            dangerouslySetInnerHTML={{ __html: value || '' }}
           ></S.FilePreview>
         )}
       </S.FilePreviewContainer>
