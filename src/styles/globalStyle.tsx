@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 * {
@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
 }
 
 body {
-  width: 100vw;
+  width: calc(100vw - (100vw - 100%));
   height: 100vh;
   overflow-y: auto;
   overflow-x: hidden;

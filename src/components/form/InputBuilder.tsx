@@ -7,6 +7,7 @@ import {
 } from 'react'; // we need this to make JSX compile
 
 import { handleFileRead } from '../../helpers/filehandler';
+import { inputValidator } from '../../helpers/inputValidator';
 
 import {
   formItemType,
@@ -26,13 +27,17 @@ import OptionInput from './inputTypes/Option/OptionInput';
 import RadioInput from './inputTypes/Radio/RadioInput';
 import CheckboxInput from './inputTypes/Checkbox/CheckboxInput';
 import RangeInput from './inputTypes/Range/RangeInput';
-import { inputValidator } from '../../helpers/inputValidator';
+import FormBuilder from './FormBuilder';
 
 type FormBuilderProps = {
   field?: formItemType;
+  mainFormKey?: string;
 };
 
-const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
+const InputBuilder = ({
+  field,
+  mainFormKey,
+}: FormBuilderProps): ReactElement => {
   const { formKeys, setKeyValue } = useContext(FormContext);
 
   const [fieldValue, setFieldValue] = useState<string | number | boolean>();
@@ -95,98 +100,111 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
     console.log('you clicked ', field?.key);
   };
 
-  switch (field?.inputType) {
-    case 'text':
-    case 'password':
-    case 'email':
-    case 'tel':
-    case 'number':
-    case 'search':
-    case 'url':
-      return (
-        <TextInput
-          content={field}
-          value={fieldValue}
-          onChangeAction={handleValueChange}
-          onBlurAction={handleValidation}
-          onFocusAction={cleanValidation}
-          pattern={field.validation?.pattern || ''}
-          required={field.validation?.required || false}
-          validationParameters={validationParameters}
-        />
-      );
-    case 'file':
-      return (
-        <FileInput
-          content={field}
-          value={fieldValue}
-          onFileAction={handleFileSelected}
-        />
-      );
-    case 'button':
-    case 'submit':
-      return <ButtonInput content={field} onClickAction={handleClick} />;
-    case 'select':
-      return (
-        <SelectInput
-          content={field}
-          value={fieldValue}
-          onChangeAction={handleValueChange}
-        />
-      );
-    case 'option':
-      return <OptionInput content={field} />;
-    case 'tabs':
-      return <InputTabs content={field} />;
-    case 'tabscontent':
-      return (
-        <>
-          {field.fields?.map((el) => (
-            <InputBuilder key={el.key} field={el} />
-          ))}
-        </>
-      );
-    case 'collapse':
-      return <CollapseInput content={field} />;
-    case 'date':
-    case 'datetime-local':
-    case 'month':
-    case 'time':
-    case 'week':
-      return (
-        <DateInput
-          content={field}
-          value={fieldValue}
-          onChangeAction={handleValueChange}
-        />
-      );
-    case 'radio':
-      return (
-        <RadioInput
-          content={field}
-          onChangeAction={handleValueChange}
-          value={fieldValue}
-        />
-      );
-    case 'checkbox':
-      return (
-        <CheckboxInput
-          content={field}
-          onChangeAction={handleValueChange}
-          value={fieldValue}
-        />
-      );
-    case 'range':
-      return (
-        <RangeInput
-          content={field}
-          onChangeAction={handleValueChange}
-          value={fieldValue}
-        />
-      );
-    default:
-      return <></>;
-  }
+  const element = (): ReactElement => {
+    switch (field?.inputType) {
+      case 'text':
+      case 'password':
+      case 'email':
+      case 'tel':
+      case 'number':
+      case 'search':
+      case 'url':
+        return (
+          <TextInput
+            content={field}
+            value={fieldValue}
+            onChangeAction={handleValueChange}
+            onBlurAction={handleValidation}
+            onFocusAction={cleanValidation}
+            pattern={field.validation?.pattern || ''}
+            required={field.validation?.required || false}
+            validationParameters={validationParameters}
+          />
+        );
+      case 'file':
+        return (
+          <FileInput
+            content={field}
+            value={fieldValue}
+            onFileAction={handleFileSelected}
+          />
+        );
+      case 'button':
+      case 'submit':
+        return <ButtonInput content={field} onClickAction={handleClick} />;
+      case 'select':
+        return (
+          <SelectInput
+            content={field}
+            value={fieldValue}
+            onChangeAction={handleValueChange}
+          />
+        );
+      case 'option':
+        return <OptionInput content={field} />;
+      case 'tabs':
+        return <InputTabs content={field} />;
+      case 'tabscontent':
+        return (
+          // <>
+          //   {field.fields?.map((el) => (
+          //     <InputBuilder key={el.key} field={el} />
+          //   ))}
+          // </>
+          <FormBuilder content={field.fields} mainFormKey={field.key} />
+        );
+      case 'collapse':
+        return <CollapseInput content={field} />;
+      case 'date':
+      case 'datetime-local':
+      case 'month':
+      case 'time':
+      case 'week':
+        return (
+          <DateInput
+            content={field}
+            value={fieldValue}
+            onChangeAction={handleValueChange}
+          />
+        );
+      case 'radio':
+        return (
+          <RadioInput
+            content={field}
+            onChangeAction={handleValueChange}
+            value={fieldValue}
+          />
+        );
+      case 'checkbox':
+        return (
+          <CheckboxInput
+            content={field}
+            onChangeAction={handleValueChange}
+            value={fieldValue}
+          />
+        );
+      case 'range':
+        return (
+          <RangeInput
+            content={field}
+            onChangeAction={handleValueChange}
+            value={fieldValue}
+          />
+        );
+      default:
+        return <></>;
+    }
+  };
+  return (
+    <div style={{ border: '1px solid black', padding: '10px' }}>
+      {element()}
+      {mainFormKey ? (
+        <div style={{ color: 'red' }}>{mainFormKey}</div>
+      ) : (
+        <div style={{ color: 'brown' }}>empty</div>
+      )}
+    </div>
+  );
 };
 
 export default InputBuilder;

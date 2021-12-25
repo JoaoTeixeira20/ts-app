@@ -11,8 +11,7 @@ function App() {
     <div className='App'>
       <GlobalStyle />
       <FormContextProvider>
-        {/* <Tabs/> */}
-        <FormBuilder fields={uploadConfiguration} />
+        <FormBuilder content={uploadConfiguration} />
       </FormContextProvider>
       <div>slider</div>
       <MultiRangeSlider

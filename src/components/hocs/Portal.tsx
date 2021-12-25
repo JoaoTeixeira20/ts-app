@@ -1,8 +1,7 @@
 import { createPortal } from 'react-dom';
-import { Fragment, ReactElement } from 'react';
+import { ReactElement } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Wrapper = styled.div`
   --portal-width: 100vw;

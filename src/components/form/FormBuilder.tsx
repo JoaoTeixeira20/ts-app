@@ -3,17 +3,27 @@ import { ReactElement } from 'react'; // we need this to make JSX compile
 import { formType } from '../../configuration/configuration';
 import InputBuilder from './InputBuilder';
 
-type FormBuilderProps = {
-  fields?: formType;
+type formBuilderProps = {
+  content?: formType;
+  mainFormKey?: string;
 };
 
-const FormBuilder = ({ fields }: FormBuilderProps): ReactElement => {
+const FormBuilder = ({
+  content,
+  mainFormKey,
+}: formBuilderProps): ReactElement => {
   return (
     <>
-      {fields &&
-        fields?.length > 0 &&
-        fields.map((field) => {
-          return <InputBuilder key={field.key} field={field} />;
+      {content &&
+        content?.length > 0 &&
+        content.map((field) => {
+          return (
+            <InputBuilder
+              key={field.key}
+              field={field}
+              mainFormKey={mainFormKey || 'root'}
+            />
+          );
         })}
     </>
   );

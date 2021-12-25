@@ -42,6 +42,7 @@ const Tabs = ({ ...props }: inputTypePropsType): ReactElement => {
             field={props.content.fields?.find(
               (field) => field.key === activeItem
             )}
+            mainFormKey={props.content.key}
           />
         )}
       </S.TabsContentContainer>

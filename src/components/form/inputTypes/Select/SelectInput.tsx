@@ -31,9 +31,12 @@ const SelectInput = ({ ...props }: inputTypePropsType): ReactElement => {
   return (
     <>
       <S.SelectType onChange={changeItems}>
-        <FormBuilder fields={props.content.fields} />
+        <FormBuilder
+          content={props.content.fields}
+          mainFormKey={props.content.key}
+        />
       </S.SelectType>
-      <FormBuilder fields={additionalFields} />
+      <FormBuilder content={additionalFields} mainFormKey={active} />
     </>
   );
 };

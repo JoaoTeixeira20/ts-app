@@ -17,7 +17,12 @@ const CollapseInput = ({ ...props }: inputTypePropsType): ReactElement => {
       <S.CollapseItem isActive={opened} onClick={toggleCollapse}>
         {props.content?.text}
       </S.CollapseItem>
-      {opened && <FormBuilder fields={props.content?.fields} />}
+      {opened && (
+        <FormBuilder
+          content={props.content?.fields}
+          mainFormKey={props.content?.key}
+        />
+      )}
     </>
   );
 };
