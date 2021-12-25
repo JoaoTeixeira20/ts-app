@@ -120,7 +120,7 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
         <FileInput
           content={field}
           value={fieldValue}
-          onChangeAction={handleFileSelected}
+          onFileAction={handleFileSelected}
         />
       );
     case 'button':
@@ -129,7 +129,7 @@ const InputBuilder = ({ field }: FormBuilderProps): ReactElement => {
     case 'select':
       return (
         <SelectInput
-          parameters={field}
+          content={field}
           value={fieldValue}
           onChangeAction={handleValueChange}
         />

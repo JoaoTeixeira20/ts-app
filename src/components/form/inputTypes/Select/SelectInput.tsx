@@ -1,21 +1,12 @@
 import { SyntheticEvent, ReactElement, useEffect, useState } from 'react';
 import {
-  formItemType,
+  inputTypePropsType,
   formType,
 } from '../../../../configuration/configuration';
 import * as S from '../../Form.styles';
 import FormBuilder from '../../FormBuilder';
 
-type OptionType = {
-  parameters: formItemType;
-  value?: string | number | boolean;
-  onChangeAction: (event: SyntheticEvent<HTMLSelectElement>) => void;
-};
-
-const SelectInput = ({
-  parameters,
-  onChangeAction,
-}: OptionType): ReactElement => {
+const SelectInput = ({ ...props }: inputTypePropsType): ReactElement => {
   const [active, setActive] = useState<string>();
 
   const [additionalFields, setAdditionalFields] = useState<
@@ -27,20 +18,20 @@ const SelectInput = ({
     const currentValue =
       event.currentTarget.options[selectedIndex].dataset['key'];
     setActive(currentValue);
-    onChangeAction(event);
+    props.onChangeAction && props.onChangeAction(event);
   };
 
   useEffect(() => {
-    !active && setActive(parameters.fields?.[0].key || '');
+    !active && setActive(props.content.fields?.[0].key || '');
     setAdditionalFields(
-      parameters.fields?.find((field) => field.key === active)?.fields
+      props.content.fields?.find((field) => field.key === active)?.fields
     );
-  }, [active, parameters.fields]);
+  }, [active, props.content.fields]);
 
   return (
     <>
       <S.SelectType onChange={changeItems}>
-        <FormBuilder fields={parameters.fields} />
+        <FormBuilder fields={props.content.fields} />
       </S.SelectType>
       <FormBuilder fields={additionalFields} />
     </>

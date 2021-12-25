@@ -1,20 +1,10 @@
-import { SyntheticEvent, ReactElement, useState } from 'react'; // we need this to make JSX compile
+import { ReactElement, useState } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from '../../../../configuration/configuration';
+import { inputTypePropsType } from '../../../../configuration/configuration';
 
 import * as S from './FileInput.styles';
 
-type textInputType = {
-  content?: formItemType;
-  value?: string | number | boolean;
-  onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
-};
-
-const FileInput = ({
-  content,
-  value,
-  onChangeAction,
-}: textInputType): ReactElement => {
+const FileInput = ({ ...props }: inputTypePropsType): ReactElement => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
   const togglePreview = () => {
@@ -23,8 +13,11 @@ const FileInput = ({
 
   return (
     <div>
-      <label>{content?.text}</label>
-      <input type={content?.inputType} onChange={onChangeAction}></input>
+      <label>{props.content?.text}</label>
+      <input
+        type={props.content?.inputType}
+        onChange={props.onFileAction}
+      ></input>
       <input
         type='checkbox'
         onChange={togglePreview}
@@ -36,9 +29,9 @@ const FileInput = ({
           <S.FilePreview
             dangerouslySetInnerHTML={{
               __html:
-                (typeof value !== 'boolean' &&
-                  typeof value !== 'number' &&
-                  value) ||
+                (typeof props.value !== 'boolean' &&
+                  typeof props.value !== 'number' &&
+                  props.value) ||
                 '',
             }}
           ></S.FilePreview>

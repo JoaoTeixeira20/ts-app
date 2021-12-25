@@ -1,19 +1,15 @@
 import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from '../../../../configuration/configuration';
+import { inputTypePropsType } from '../../../../configuration/configuration';
 
-type optionInputType = {
-  content: formItemType;
-};
-
-const OptionInput = ({ content }: optionInputType): ReactElement => {
+const OptionInput = ({ ...props }: inputTypePropsType): ReactElement => {
   return (
     <option
-      key={content.key}
-      data-key={content.key}
-      value={content.value?.toString()}
+      key={props.content.key}
+      data-key={props.content.key}
+      value={props.content.value?.toString()}
     >
-      {content.text}
+      {props.content.text}
     </option>
   );
 };

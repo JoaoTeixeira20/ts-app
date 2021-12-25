@@ -1,25 +1,15 @@
-import { SyntheticEvent, ReactElement } from 'react'; // we need this to make JSX compile
+import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from '../../../../configuration/configuration';
+import { inputTypePropsType } from '../../../../configuration/configuration';
 
-type dateInputType = {
-  content?: formItemType;
-  value?: string | number | boolean;
-  onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
-};
-
-const DateInput = ({
-  content,
-  value,
-  onChangeAction,
-}: dateInputType): ReactElement => {
+const DateInput = ({ ...props }: inputTypePropsType): ReactElement => {
   return (
     <div>
-      <label>{content?.text}</label>
+      <label>{props.content?.text}</label>
       <input
-        type={content?.inputType}
-        onChange={onChangeAction}
-        value={(typeof value !== 'boolean' && value) || ''}
+        type={props.content?.inputType}
+        onChange={props.onChangeAction}
+        value={(typeof props.value !== 'boolean' && props.value) || ''}
       ></input>
     </div>
   );

@@ -1,15 +1,11 @@
 import React, { ReactElement, SyntheticEvent, useEffect } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from '../../../../configuration/configuration';
+import { inputTypePropsType } from '../../../../configuration/configuration';
 
 import * as S from './Tabs.styles';
 import InputBuilder from '../../InputBuilder';
 
-type tabsType = {
-  content: formItemType;
-};
-
-const Tabs = ({ content }: tabsType): ReactElement => {
+const Tabs = ({ ...props }: inputTypePropsType): ReactElement => {
   const [activeItem, setActiveItem] = React.useState<string | undefined>('');
 
   const changeItems = (event: SyntheticEvent<HTMLDivElement>): void => {
@@ -21,13 +17,13 @@ const Tabs = ({ content }: tabsType): ReactElement => {
     activeItem === key;
 
   useEffect(() => {
-    setActiveItem(content.fields?.[0]?.key || '');
-  }, [content.fields]);
+    setActiveItem(props.content.fields?.[0]?.key || '');
+  }, [props.content.fields]);
 
   return (
     <>
       <S.TabsContainer>
-        {content.fields?.map((menuItem) => {
+        {props.content.fields?.map((menuItem) => {
           return (
             <S.TabItem
               isActive={isActiveItem(activeItem, menuItem.key)}
@@ -43,7 +39,9 @@ const Tabs = ({ content }: tabsType): ReactElement => {
       <S.TabsContentContainer>
         {activeItem && (
           <InputBuilder
-            field={content.fields?.find((field) => field.key === activeItem)}
+            field={props.content.fields?.find(
+              (field) => field.key === activeItem
+            )}
           />
         )}
       </S.TabsContentContainer>

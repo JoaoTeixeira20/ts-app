@@ -1,17 +1,15 @@
-import { SyntheticEvent, ReactElement } from 'react'; // we need this to make JSX compile
+import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from '../../../../configuration/configuration';
+import { inputTypePropsType } from '../../../../configuration/configuration';
 
-type buttonInputType = {
-  content?: formItemType;
-  onClickAction: (event: SyntheticEvent<HTMLInputElement>) => void;
-};
-
-const ButtonInput = ({
-  content,
-  onClickAction,
-}: buttonInputType): ReactElement => {
-  return <input type='button' value={content?.text} onClick={onClickAction} />;
+const ButtonInput = ({ ...props }: inputTypePropsType): ReactElement => {
+  return (
+    <input
+      type='button'
+      value={props.content?.text}
+      onClick={props.onClickAction}
+    />
+  );
 };
 
 export default ButtonInput;

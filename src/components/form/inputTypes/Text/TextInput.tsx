@@ -1,51 +1,24 @@
-import React, {
-  SyntheticEvent,
-  ReactElement,
-  ReactComponentElement,
-} from 'react'; // we need this to make JSX compile
+import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import {
-  formItemType,
-  validationStateType,
-} from '../../../../configuration/configuration';
+import { inputTypePropsType } from '../../../../configuration/configuration';
 
 import * as S from './TextInput.styles';
 
-type textInputType = {
-  content?: formItemType;
-  value?: string | number | boolean;
-  onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
-  onBlurAction: (event: SyntheticEvent<HTMLInputElement>) => void;
-  onFocusAction: () => void;
-  pattern?: string;
-  required?: boolean;
-  validationParameters?: validationStateType;
-};
-
-const TextInput = ({
-  content,
-  value,
-  onChangeAction,
-  onBlurAction,
-  onFocusAction,
-  pattern,
-  required,
-  validationParameters,
-}: textInputType): ReactElement => {
+const TextInput = ({ ...props }: inputTypePropsType): ReactElement => {
   return (
     <div>
-      <label>{content?.text}</label>
+      <label>{props.content?.text}</label>
       <S.TextInput
-        type={content?.inputType}
-        value={(typeof value !== 'boolean' && value) || ''}
-        onFocus={onFocusAction}
-        onChange={onChangeAction}
-        onBlur={onBlurAction}
-        pattern={pattern}
-        required={required}
+        type={props.content?.inputType}
+        value={(typeof props.value !== 'boolean' && props.value) || ''}
+        onFocus={props.onFocusAction}
+        onChange={props.onChangeAction}
+        onBlur={props.onBlurAction}
+        pattern={props.pattern}
+        required={props.required}
       ></S.TextInput>
-      {!validationParameters?.status && (
-        <span>{validationParameters?.message}</span>
+      {!props.validationParameters?.status && (
+        <span>{props.validationParameters?.message}</span>
       )}
     </div>
   );

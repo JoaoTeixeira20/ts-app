@@ -1,28 +1,18 @@
-import { SyntheticEvent, ReactElement } from 'react'; // we need this to make JSX compile
+import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import { formItemType } from '../../../../configuration/configuration';
+import { inputTypePropsType } from '../../../../configuration/configuration';
 
-type radioInputType = {
-  content?: formItemType;
-  value?: string | number | boolean;
-  onChangeAction: (event: SyntheticEvent<HTMLInputElement>) => void;
-};
-
-const RadioInput = ({
-  content,
-  value,
-  onChangeAction,
-}: radioInputType): ReactElement => {
+const RadioInput = ({ ...props }: inputTypePropsType): ReactElement => {
   return (
     <div>
-      {content?.fields?.map((field) => {
+      {props.content?.fields?.map((field) => {
         return (
           <div key={field.key}>
             <input
               type='radio'
-              checked={value === field?.value}
-              name={content.key}
-              onChange={onChangeAction}
+              checked={props.value === field?.value}
+              name={props.content.key}
+              onChange={props.onChangeAction}
               value={(typeof field.value !== 'boolean' && field.value) || ''}
             ></input>
             <label>{field.text}</label>

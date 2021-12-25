@@ -1,3 +1,5 @@
+import { SyntheticEvent } from 'react';
+
 export type formType = formItemType[];
 
 export type validationStateType = {
@@ -37,6 +39,23 @@ export type formItemType = {
   inputClass?: string;
   fields?: formType;
   validation?: validationType;
+};
+
+export type inputTypePropsType = {
+  content: formItemType;
+  value?: string | number | boolean;
+  onChangeAction?: (
+    event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  onBlurAction?: (
+    event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  onFocusAction?: () => void;
+  onClickAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
+  onFileAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
+  pattern?: string;
+  required?: boolean;
+  validationParameters?: validationStateType;
 };
 
 export const uploadConfiguration: formType = [
