@@ -56,6 +56,7 @@ export type inputTypePropsType = {
   pattern?: string;
   required?: boolean;
   validationParameters?: validationStateType;
+  form?: string;
 };
 
 export const uploadConfiguration: formType = [
@@ -274,6 +275,30 @@ export const uploadConfiguration: formType = [
         patternMismatch: 'Invalid email',
       },
     },
+  },
+  {
+    key: 'collapsekey2',
+    text: 'collapsed content',
+    inputType: 'collapse',
+    fields: [
+      {
+        key: 'additionalField4',
+        text: 'username',
+        inputType: 'text',
+        inputClass: 'text-input',
+      },
+      {
+        key: 'additionalField5',
+        text: 'password',
+        inputType: 'text',
+        inputClass: 'text-input',
+      },
+      {
+        key: 'additionalField6',
+        text: 'idunno',
+        inputType: 'text',
+      },
+    ],
   },
 ];
 

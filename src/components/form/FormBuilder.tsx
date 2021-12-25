@@ -1,4 +1,9 @@
-import { ReactElement } from 'react'; // we need this to make JSX compile
+import {
+  FormEvent,
+  FormEventHandler,
+  ReactElement,
+  SyntheticEvent,
+} from 'react'; // we need this to make JSX compile
 
 import { formType } from '../../configuration/configuration';
 import InputBuilder from './InputBuilder';
@@ -12,6 +17,23 @@ const FormBuilder = ({
   content,
   mainFormKey,
 }: formBuilderProps): ReactElement => {
+  const checkElements = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log('event is ', event);
+    // for (const element in event.currentTarget.elements) {
+    //   console.log(typeof element);
+    // }
+    console.log('validating ', event.currentTarget.id);
+    Array.prototype.map.call(
+      event.currentTarget.elements,
+      (ele: HTMLInputElement) => {
+        if (ele.type !== 'submit') {
+          console.log('field ', ele.name, 'has value ', ele.value);
+        }
+      }
+    );
+  };
+
   return (
     <>
       {content &&
@@ -25,6 +47,15 @@ const FormBuilder = ({
             />
           );
         })}
+      {content?.[0].inputType !== 'option' && (
+        <form id={mainFormKey || 'root'} onSubmit={checkElements}>
+          <input
+            type='submit'
+            form={mainFormKey || 'root'}
+            value='check this form'
+          ></input>
+        </form>
+      )}
     </>
   );
 };

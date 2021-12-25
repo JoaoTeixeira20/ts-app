@@ -119,6 +119,7 @@ const InputBuilder = ({
             pattern={field.validation?.pattern || ''}
             required={field.validation?.required || false}
             validationParameters={validationParameters}
+            form={mainFormKey}
           />
         );
       case 'file':
@@ -145,14 +146,7 @@ const InputBuilder = ({
       case 'tabs':
         return <InputTabs content={field} />;
       case 'tabscontent':
-        return (
-          // <>
-          //   {field.fields?.map((el) => (
-          //     <InputBuilder key={el.key} field={el} />
-          //   ))}
-          // </>
-          <FormBuilder content={field.fields} mainFormKey={field.key} />
-        );
+        return <FormBuilder content={field.fields} mainFormKey={field.key} />;
       case 'collapse':
         return <CollapseInput content={field} />;
       case 'date':
@@ -195,7 +189,7 @@ const InputBuilder = ({
         return <></>;
     }
   };
-  return (
+  return field?.inputType !== 'option' ? (
     <div style={{ border: '1px solid black', padding: '10px' }}>
       {element()}
       {mainFormKey ? (
@@ -204,6 +198,8 @@ const InputBuilder = ({
         <div style={{ color: 'brown' }}>empty</div>
       )}
     </div>
+  ) : (
+    element()
   );
 };
 

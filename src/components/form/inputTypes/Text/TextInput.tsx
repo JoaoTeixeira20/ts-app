@@ -11,11 +11,13 @@ const TextInput = ({ ...props }: inputTypePropsType): ReactElement => {
       <S.TextInput
         type={props.content?.inputType}
         value={(typeof props.value !== 'boolean' && props.value) || ''}
+        name={props.content.key}
         onFocus={props.onFocusAction}
         onChange={props.onChangeAction}
         onBlur={props.onBlurAction}
-        pattern={props.pattern}
-        required={props.required}
+        pattern={props.pattern || undefined}
+        required={props.required || undefined}
+        form={props.form || undefined}
       ></S.TextInput>
       {!props.validationParameters?.status && (
         <span>{props.validationParameters?.message}</span>
