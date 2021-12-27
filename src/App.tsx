@@ -6,8 +6,9 @@ import GlobalStyle from './styles/globalStyle';
 import { uploadConfiguration } from './configuration/configuration';
 import MultiRangeSlider from './components/form/inputTypes/MultiRangeSlider/MultiRangeSliderInput';
 import { Test } from './context/NestedContext';
-import { WrappedForm } from './context/FromContextv2';
+import { FormComponent } from './context/FromContextv2';
 import { formConfig } from './configuration/configurationv2';
+import { FormValuesContextProvider } from './context/FormValuesContext';
 
 function App() {
   return (
@@ -23,7 +24,9 @@ function App() {
         }
       /> */}
       {/* <Test /> */}
-      <WrappedForm content={formConfig} />
+      <FormValuesContextProvider>
+        <FormComponent content={formConfig} />
+      </FormValuesContextProvider>
     </div>
   );
 }

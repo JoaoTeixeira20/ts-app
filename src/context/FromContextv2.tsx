@@ -2,10 +2,14 @@ import {
   createContext,
   PropsWithChildren,
   ReactElement,
+  SyntheticEvent,
   useContext,
   useEffect,
+  useState,
 } from 'react';
 import { fieldType, formType } from '../configuration/configurationv2';
+import { strToObj } from '../helpers/utils';
+import { FormValuesContext } from './FormValuesContext';
 
 type formContextType = {
   id: string;
@@ -24,10 +28,10 @@ const FormContextProvider = (props: PropsWithChildren<formContextType>) => {
 const FormContextConsumer = (
   mainprops: PropsWithChildren<formContextType>
 ): ReactElement => {
-  useEffect(() => {
-    console.log('id is ', mainprops.id);
-  }, [mainprops.id]);
-
+  const { values } = useContext(FormValuesContext);
+  const checkValues = () => {
+    console.log(values);
+  };
   return (
     <FormContext.Consumer>
       {(props: PropsWithChildren<formContextType>): ReactElement => {
@@ -43,6 +47,7 @@ const FormContextConsumer = (
             >
               {mainprops.children}
             </FormContextProvider>
+            <button onClick={checkValues}>check values</button>
           </>
         );
       }}
@@ -50,29 +55,32 @@ const FormContextConsumer = (
   );
 };
 
-const FormComponent = (props: formType): ReactElement => {
-  const { id } = useContext(FormContext);
-
-  return (
-    <>
-      <div>{id}</div>
-      {props.fields.map((field) => {
-        return <ItemComponent key={field.name} {...field}></ItemComponent>;
-      })}
-    </>
-  );
-};
-
 const ItemComponent = (props: fieldType): ReactElement => {
+  const [value, setValue] = useState<string>('');
+  const { id } = useContext(FormContext);
+  const { mergeValues } = useContext(FormValuesContext);
+
+  const onChangeAction = (event: SyntheticEvent<HTMLInputElement>): void => {
+    setValue(event.currentTarget.value);
+  };
+
+  useEffect(() => {
+    const nestedValue = strToObj(`${id}.${props.name}`, value);
+    // console.log(JSON.stringify(nestedValue, null, ' '));
+    mergeValues(nestedValue);
+  }, [value]);
+
   return (
     <>
+      {/* <div style={{ border: '1px solid red' }}> itemformid: {id}</div> */}
       <div> label: {props.label}</div>
       <div> name: {props.name}</div>
+      <input type='text' value={value} onChange={onChangeAction} />
       {Array.isArray(props.subForm)
         ? props.subForm.map((form) => {
-            return <WrappedForm key={form.id} content={form} />;
+            return <FormComponent key={form.id} content={form} />;
           })
-        : props.subForm && <WrappedForm content={props.subForm} />}
+        : props.subForm && <FormComponent content={props.subForm} />}
     </>
   );
 };
@@ -81,11 +89,24 @@ type wrappedFormType = {
   content: formType;
 };
 
-export const WrappedForm = (props: wrappedFormType): ReactElement => {
+const FormBuilder = (props: formType): ReactElement => {
+  const { id } = useContext(FormContext);
+
+  return (
+    <>
+      <div style={{ border: '1px solid black' }}>{id}</div>
+      {props.fields.map((field) => {
+        return <ItemComponent key={field.name} {...field}></ItemComponent>;
+      })}
+    </>
+  );
+};
+
+export const FormComponent = (props: wrappedFormType): ReactElement => {
   return (
     <>
       <FormContextConsumer id={props.content.id}>
-        <FormComponent {...props.content} />
+        <FormBuilder {...props.content} />
       </FormContextConsumer>
     </>
   );

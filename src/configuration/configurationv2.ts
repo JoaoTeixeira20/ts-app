@@ -84,6 +84,11 @@ export const formConfig: formType = {
                   name: 'subsubformlabel',
                   type: 'text',
                 },
+                {
+                  label: 'subsubform label2',
+                  name: 'subsubformlabel2',
+                  type: 'text',
+                },
               ],
             },
           },
