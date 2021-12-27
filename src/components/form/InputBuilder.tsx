@@ -73,7 +73,7 @@ const InputBuilder = ({
     const file: Blob =
       (event.currentTarget.files && event.currentTarget.files[0]) || new Blob();
     const result = await handleFileRead(file);
-    setKeyValue({ key: field?.key || '', value: result?.toString() || '' });
+    // setKeyValue({ key: field?.key || '', value: result?.toString() || '' });
     setFieldValue(result?.toString() || '');
   };
 
@@ -89,10 +89,10 @@ const InputBuilder = ({
     } catch {
       value = eventValue;
     }
-    setKeyValue({
-      key: field?.key || '',
-      value: value,
-    });
+    // setKeyValue({
+    //   key: field?.key || '',
+    //   value: value,
+    // });
     setFieldValue(value);
   };
 

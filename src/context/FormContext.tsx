@@ -1,18 +1,24 @@
-import { createContext, PropsWithChildren, useState, useEffect } from 'react';
+import React, {
+  createContext,
+  PropsWithChildren,
+  useState,
+  useEffect,
+} from 'react';
 
 type FormFieldType = {
   key: string;
   value: string;
 };
 
-interface IFormContext {
-  formKeys: Record<string, string>;
-  setKeyValue: ({ key, value }: FormFieldType) => void;
+export interface IFormContext {
+  formKeys?: Record<string, string>;
+  setKeyValue?: ({ key, value }: FormFieldType) => void;
+  keyIndex: string;
 }
 
 type FormContextPropsType = {};
 
-export const FormContext = createContext({} as IFormContext);
+const FormContext = createContext({} as IFormContext);
 
 const FormContextProvider = (
   props: PropsWithChildren<FormContextPropsType>
@@ -30,10 +36,10 @@ const FormContextProvider = (
   };
 
   return (
-    <FormContext.Provider value={{ formKeys, setKeyValue }}>
+    <FormContext.Provider value={{ formKeys, setKeyValue, keyIndex: 'root' }}>
       {props.children}
     </FormContext.Provider>
   );
 };
 
-export default FormContextProvider;
+export { FormContextProvider, FormContext };
