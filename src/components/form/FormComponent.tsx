@@ -1,7 +1,9 @@
 import { ReactElement, useContext } from 'react';
 import { formType } from '../../configuration/configuration';
-import { FormContext } from '../../context/FromContext';
-import { FormContextConsumer } from '../../context/FromContext';
+import {
+  FormPathContext,
+  FormPathContextConsumer,
+} from '../../context/FromPathContext';
 import ItemComponent from './ItemComponent';
 
 type formComponentType = {
@@ -9,7 +11,7 @@ type formComponentType = {
 };
 
 const FormBuilder = (props: formType): ReactElement => {
-  const { id } = useContext(FormContext);
+  const { id } = useContext(FormPathContext);
 
   return (
     <>
@@ -24,9 +26,9 @@ const FormBuilder = (props: formType): ReactElement => {
 const FormComponent = (props: formComponentType): ReactElement => {
   return (
     <>
-      <FormContextConsumer id={props.content?.id}>
+      <FormPathContextConsumer id={props.content?.id}>
         <FormBuilder {...props.content} />
-      </FormContextConsumer>
+      </FormPathContextConsumer>
     </>
   );
 };

@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { fieldType } from '../../configuration/configuration';
 import { FormValuesContext } from '../../context/FormValuesContext';
-import { FormContext } from '../../context/FromContext';
+import { FormPathContext } from '../../context/FromPathContext';
 import { getValueFromDotNotationIndex, strToObj } from '../../helpers/utils';
 import FormComponent from './FormComponent';
 import { handleFileRead } from '../../helpers/filehandler';
@@ -32,7 +32,7 @@ export type itemComponentType = fieldType & {
 
 const ItemComponent = (props: fieldType): ReactElement => {
   const [value, setValue] = useState<string>('');
-  const { id } = useContext(FormContext);
+  const { id } = useContext(FormPathContext);
   const { values, mergeValues } = useContext(FormValuesContext);
   const fieldidPath = `${id}.${props.name}`;
 

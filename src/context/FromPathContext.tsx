@@ -4,23 +4,25 @@ type formContextType = {
   id?: string;
 };
 
-export const FormContext = createContext({} as formContextType);
+export const FormPathContext = createContext({} as formContextType);
 
-const FormContextProvider = (props: PropsWithChildren<formContextType>) => {
+const FormPathContextProvider = (props: PropsWithChildren<formContextType>) => {
   return (
-    <FormContext.Provider value={props}>{props.children}</FormContext.Provider>
+    <FormPathContext.Provider value={props}>
+      {props.children}
+    </FormPathContext.Provider>
   );
 };
 
-export const FormContextConsumer = (
+export const FormPathContextConsumer = (
   mainprops: PropsWithChildren<formContextType>
 ): ReactElement => {
   return (
-    <FormContext.Consumer>
+    <FormPathContext.Consumer>
       {(props: PropsWithChildren<formContextType>): ReactElement => {
         return (
           <>
-            <FormContextProvider
+            <FormPathContextProvider
               {...{
                 ...props,
                 id: props.id
@@ -29,10 +31,10 @@ export const FormContextConsumer = (
               }}
             >
               {mainprops.children}
-            </FormContextProvider>
+            </FormPathContextProvider>
           </>
         );
       }}
-    </FormContext.Consumer>
+    </FormPathContext.Consumer>
   );
 };
