@@ -1,19 +1,15 @@
-import { ReactElement, SyntheticEvent } from 'react'; // we need this to make JSX compile
+import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import { inputTypePropsType } from '../../../../configuration/configuration';
+import { itemComponentType } from '../../ItemComponent';
 
-const RangeInput = ({ ...props }: inputTypePropsType): ReactElement => {
-  const changeEvent = (event: SyntheticEvent<HTMLInputElement>) => {
-    props.onChangeAction && props.onChangeAction(event);
-  };
-
+const RangeInput = ({ ...props }: itemComponentType): ReactElement => {
   return (
     <>
-      <label>{props.content?.text}</label>
+      <label>{props.label}</label>
       <input
         type='range'
-        onChange={changeEvent}
-        value={(typeof props.value !== 'boolean' && props.value) || ''}
+        onChange={props.onChangeAction}
+        value={props.value}
       ></input>
     </>
   );

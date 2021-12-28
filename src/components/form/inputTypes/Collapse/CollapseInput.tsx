@@ -1,11 +1,11 @@
 import { SyntheticEvent, ReactElement, useState } from 'react'; // we need this to make JSX compile
 
-import { inputTypePropsType } from '../../../../configuration/configuration';
-import FormBuilder from '../../FormBuilder';
+import { itemComponentType } from '../../ItemComponent';
+import FormComponent from '../../FormComponent';
 
 import * as S from './CollapseInput.styles';
 
-const CollapseInput = ({ ...props }: inputTypePropsType): ReactElement => {
+const CollapseInput = ({ ...props }: itemComponentType): ReactElement => {
   const [opened, setOpened] = useState<boolean>(false);
 
   const toggleCollapse = (_: SyntheticEvent<HTMLDivElement>) => {
@@ -15,13 +15,10 @@ const CollapseInput = ({ ...props }: inputTypePropsType): ReactElement => {
   return (
     <>
       <S.CollapseItem isActive={opened} onClick={toggleCollapse}>
-        {props.content?.text}
+        {props.label}
       </S.CollapseItem>
-      {opened && (
-        <FormBuilder
-          content={props.content?.fields}
-          mainFormKey={props.content?.key}
-        />
+      {opened && !Array.isArray(props.subForm) && props.subForm && (
+        <FormComponent content={props.subForm} />
       )}
     </>
   );

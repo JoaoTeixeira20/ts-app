@@ -1,42 +1,37 @@
-import { SyntheticEvent, ReactElement, useEffect, useState } from 'react';
-import {
-  inputTypePropsType,
-  formType,
-} from '../../../../configuration/configuration';
-import * as S from '../../Form.styles';
-import FormBuilder from '../../FormBuilder';
+import { ReactElement, SyntheticEvent, useState } from 'react';
+import { itemComponentType } from '../../ItemComponent';
+import { getFormByFieldItemId } from '../../../../helpers/activeItemHelper';
+import { formType } from '../../../../configuration/configuration';
+import FormComponent from '../../FormComponent';
 
-const SelectInput = ({ ...props }: inputTypePropsType): ReactElement => {
-  const [active, setActive] = useState<string>();
+const SelectInput = (props: itemComponentType): ReactElement => {
+  const [activeItem, setActiveItem] = useState<formType | undefined>();
 
-  const [additionalFields, setAdditionalFields] = useState<
-    formType | undefined
-  >();
-
-  const changeItems = (event: SyntheticEvent<HTMLSelectElement>): void => {
+  const onSelectChange = (event: SyntheticEvent<HTMLSelectElement>) => {
     const selectedIndex: number = event.currentTarget.selectedIndex;
-    const currentValue =
-      event.currentTarget.options[selectedIndex].dataset['key'];
-    setActive(currentValue);
+    const id = event.currentTarget.options[selectedIndex].dataset['key'];
+    setActiveItem(getFormByFieldItemId(props.subForm, id));
     props.onChangeAction && props.onChangeAction(event);
   };
 
-  useEffect(() => {
-    !active && setActive(props.content.fields?.[0].key || '');
-    setAdditionalFields(
-      props.content.fields?.find((field) => field.key === active)?.fields
-    );
-  }, [active, props.content.fields]);
-
   return (
     <>
-      <S.SelectType onChange={changeItems}>
-        <FormBuilder
-          content={props.content.fields}
-          mainFormKey={props.content.key}
-        />
-      </S.SelectType>
-      <FormBuilder content={additionalFields} mainFormKey={active} />
+      <select name={props.name} onChange={onSelectChange}>
+        {!Array.isArray(props.subForm) &&
+          Array.isArray(props.subForm?.fields) &&
+          props.subForm?.fields.map((field) => {
+            return (
+              <option
+                key={field.name}
+                data-key={field.name}
+                value={field.value}
+              >
+                {field.label}
+              </option>
+            );
+          })}
+      </select>
+      {activeItem && <FormComponent content={activeItem} />}
     </>
   );
 };

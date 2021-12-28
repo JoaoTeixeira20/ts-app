@@ -1,10 +1,10 @@
 import { ReactElement, useState } from 'react'; // we need this to make JSX compile
 
-import { inputTypePropsType } from '../../../../configuration/configuration';
+import { itemComponentType } from '../../ItemComponent';
 
 import * as S from './FileInput.styles';
 
-const FileInput = ({ ...props }: inputTypePropsType): ReactElement => {
+const FileInput = (props: itemComponentType): ReactElement => {
   const [showPreview, setShowPreview] = useState<boolean>(false);
 
   const togglePreview = () => {
@@ -13,11 +13,8 @@ const FileInput = ({ ...props }: inputTypePropsType): ReactElement => {
 
   return (
     <div>
-      <label>{props.content?.text}</label>
-      <input
-        type={props.content?.inputType}
-        onChange={props.onFileAction}
-      ></input>
+      <label>{props.label}</label>
+      <input type={props.type} onChange={props.onFileChangeAction}></input>
       <input
         type='checkbox'
         onChange={togglePreview}
@@ -25,17 +22,7 @@ const FileInput = ({ ...props }: inputTypePropsType): ReactElement => {
       ></input>
       <label>Show content?</label>
       <S.FilePreviewContainer>
-        {showPreview && (
-          <S.FilePreview
-            dangerouslySetInnerHTML={{
-              __html:
-                (typeof props.value !== 'boolean' &&
-                  typeof props.value !== 'number' &&
-                  props.value) ||
-                '',
-            }}
-          ></S.FilePreview>
-        )}
+        {showPreview && <S.FilePreview>{props.value}</S.FilePreview>}
       </S.FilePreviewContainer>
     </div>
   );

@@ -1,14 +1,10 @@
 import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import { inputTypePropsType } from '../../../../configuration/configuration';
+import { itemComponentType } from '../../ItemComponent';
 
-const ButtonInput = ({ ...props }: inputTypePropsType): ReactElement => {
+const ButtonInput = ({ ...props }: itemComponentType): ReactElement => {
   return (
-    <input
-      type='button'
-      value={props.content?.text}
-      onClick={props.onClickAction}
-    />
+    <input type='button' value={props.label} onClick={props.onClickAction} />
   );
 };
 

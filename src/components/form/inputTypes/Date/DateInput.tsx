@@ -1,15 +1,15 @@
 import { ReactElement } from 'react'; // we need this to make JSX compile
 
-import { inputTypePropsType } from '../../../../configuration/configuration';
+import { itemComponentType } from '../../ItemComponent';
 
-const DateInput = ({ ...props }: inputTypePropsType): ReactElement => {
+const DateInput = ({ ...props }: itemComponentType): ReactElement => {
   return (
     <div>
-      <label>{props.content?.text}</label>
+      <label>{props.label}</label>
       <input
-        type={props.content?.inputType}
+        type={props.type}
         onChange={props.onChangeAction}
-        value={(typeof props.value !== 'boolean' && props.value) || ''}
+        value={props.value}
       ></input>
     </div>
   );

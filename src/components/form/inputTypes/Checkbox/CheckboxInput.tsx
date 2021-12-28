@@ -1,9 +1,13 @@
-import { ReactElement, SyntheticEvent } from 'react'; // we need this to make JSX compile
+import { ReactElement, SyntheticEvent, useState } from 'react'; // we need this to make JSX compile
 
-import { inputTypePropsType } from '../../../../configuration/configuration';
+import { itemComponentType } from '../../ItemComponent';
 
-const CheckboxInput = ({ ...props }: inputTypePropsType): ReactElement => {
+const CheckboxInput = ({ ...props }: itemComponentType): ReactElement => {
+  const [checked, setChecked] = useState<boolean>(
+    (props.value && JSON.parse(props.value)) || false
+  );
   const checkBoxChangeAction = (event: SyntheticEvent<HTMLInputElement>) => {
+    setChecked(!checked);
     event.currentTarget.value = event.currentTarget.checked.toString();
     props.onChangeAction && props.onChangeAction(event);
   };
@@ -13,14 +17,9 @@ const CheckboxInput = ({ ...props }: inputTypePropsType): ReactElement => {
       <input
         type='checkbox'
         onChange={checkBoxChangeAction}
-        checked={
-          (typeof props.value !== 'string' &&
-            typeof props.value !== 'number' &&
-            props.value) ||
-          false
-        }
+        checked={checked}
       ></input>
-      <label>{props.content?.text}</label>
+      <label>{props.label}</label>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { ReactElement, useContext } from 'react';
-import { formType } from '../../configuration/configurationv2';
-import { FormContext } from '../../context/FromContextv2';
-import { FormContextConsumer } from '../../context/FromContextv2';
+import { formType } from '../../configuration/configuration';
+import { FormContext } from '../../context/FromContext';
+import { FormContextConsumer } from '../../context/FromContext';
 import ItemComponent from './ItemComponent';
 
 type formComponentType = {

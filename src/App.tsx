@@ -1,15 +1,10 @@
 import './App.css';
-import FormBuilder from './components/form/FormBuilder';
-import { FormContextProvider } from './context/FormContext';
 import GlobalStyle from './styles/globalStyle';
-
-import { uploadConfiguration } from './configuration/configuration';
-import MultiRangeSlider from './components/form/inputTypes/MultiRangeSlider/MultiRangeSliderInput';
-import { Test } from './context/NestedContext';
-import FormComponent from './components/formv2/FormComponent';
-import { formConfig } from './configuration/configurationv2';
+import FormComponent from './components/form/FormComponent';
+import { formConfig } from './configuration/configuration';
 import { FormValuesContextProvider } from './context/FormValuesContext';
 import CheckFormStateTest from './components/testComponents/CheckFormStateTest';
+import MultiRangeSlider from './components/form/inputTypes/MultiRangeSlider/MultiRangeSliderInput';
 
 function App() {
   return (
@@ -29,6 +24,13 @@ function App() {
         <FormComponent content={formConfig} />
         <CheckFormStateTest />
       </FormValuesContextProvider>
+      <MultiRangeSlider
+        min={0}
+        max={1000}
+        onChange={({ min, max }: { min: number; max: number }) =>
+          console.log(`min = ${min}, max = ${max}`)
+        }
+      />
     </div>
   );
 }

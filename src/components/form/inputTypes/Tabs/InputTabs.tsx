@@ -1,50 +1,55 @@
-import React, { ReactElement, SyntheticEvent, useEffect } from 'react'; // we need this to make JSX compile
-
-import { inputTypePropsType } from '../../../../configuration/configuration';
+import React, {
+  ReactElement,
+  SyntheticEvent,
+  useEffect,
+  useState,
+} from 'react'; // we need this to make JSX compile
+import { itemComponentType } from '../../ItemComponent';
+import { fieldType, formType } from '../../../../configuration/configuration';
+import {
+  getActiveItemById,
+  isActiveItem,
+} from '../../../../helpers/activeItemHelper';
+import FormComponent from '../../FormComponent';
 
 import * as S from './Tabs.styles';
-import InputBuilder from '../../InputBuilder';
 
-const Tabs = ({ ...props }: inputTypePropsType): ReactElement => {
-  const [activeItem, setActiveItem] = React.useState<string | undefined>('');
+const Tabs = (props: itemComponentType): ReactElement => {
+  const [activeItem, setActiveItem] = useState<formType | undefined>();
 
   const changeItems = (event: SyntheticEvent<HTMLDivElement>): void => {
-    const value = event.currentTarget.dataset;
-    setActiveItem(value['index']);
+    const value = event.currentTarget.dataset['id'];
+    setActiveItem(getActiveItemById(props.subForm, value));
   };
 
-  const isActiveItem = (activeItem: string | undefined, key: string): boolean =>
-    activeItem === key;
-
   useEffect(() => {
-    setActiveItem(props.content.fields?.[0]?.key || '');
-  }, [props.content.fields]);
+    setActiveItem(
+      getActiveItemById(
+        props.subForm,
+        Array.isArray(props.subForm) ? props.subForm?.[0]?.id : ''
+      )
+    );
+  }, []);
 
   return (
     <>
       <S.TabsContainer>
-        {props.content.fields?.map((menuItem) => {
-          return (
-            <S.TabItem
-              isActive={isActiveItem(activeItem, menuItem.key)}
-              onClick={changeItems}
-              key={menuItem.key}
-              data-index={menuItem.key}
-            >
-              {menuItem.text}
-            </S.TabItem>
-          );
-        })}
+        {Array.isArray(props.subForm) &&
+          props.subForm?.map((subFormItem) => {
+            return (
+              <S.TabItem
+                isActive={isActiveItem(activeItem, subFormItem.id)}
+                onClick={changeItems}
+                key={subFormItem.id}
+                data-id={subFormItem.id}
+              >
+                {subFormItem.label}
+              </S.TabItem>
+            );
+          })}
       </S.TabsContainer>
       <S.TabsContentContainer>
-        {activeItem && (
-          <InputBuilder
-            field={props.content.fields?.find(
-              (field) => field.key === activeItem
-            )}
-            mainFormKey={props.content.key}
-          />
-        )}
+        {activeItem && <FormComponent content={activeItem} />}
       </S.TabsContentContainer>
     </>
   );

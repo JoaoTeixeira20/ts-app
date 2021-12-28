@@ -5,9 +5,9 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { fieldType } from '../../configuration/configurationv2';
+import { fieldType } from '../../configuration/configuration';
 import { FormValuesContext } from '../../context/FormValuesContext';
-import { FormContext } from '../../context/FromContextv2';
+import { FormContext } from '../../context/FromContext';
 import { getValueFromDotNotationIndex, strToObj } from '../../helpers/utils';
 import FormComponent from './FormComponent';
 import { handleFileRead } from '../../helpers/filehandler';
@@ -19,9 +19,14 @@ import CollapseInput from './inputTypes/Collapse/CollapseInput';
 import CheckboxInput from './inputTypes/Checkbox/CheckboxInput';
 import DateInput from './inputTypes/Date/DateInput';
 import RadioInput from './inputTypes/Radio/RadioInput';
+import SelectInput from './inputTypes/Select/SelectInput';
+import RangeInput from './inputTypes/Range/RangeInput';
 
 export type itemComponentType = fieldType & {
-  onChangeAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
+  onChangeAction?: (
+    event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
+  onFileChangeAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
   onClickAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
 };
 
@@ -31,14 +36,16 @@ const ItemComponent = (props: fieldType): ReactElement => {
   const { values, mergeValues } = useContext(FormValuesContext);
   const fieldidPath = `${id}.${props.name}`;
 
-  const onChangeAction = (event: SyntheticEvent<HTMLInputElement>): void => {
+  const onChangeAction = (
+    event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>
+  ): void => {
     const actionValue = event.currentTarget.value;
     const nestedValue = strToObj(fieldidPath, actionValue);
     setValue(actionValue);
     mergeValues(nestedValue);
   };
 
-  const handleFileSelected = async (
+  const onFileChangeAction = async (
     event: SyntheticEvent<HTMLInputElement>
   ): Promise<void> => {
     const file: Blob =
@@ -66,6 +73,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
   const propsToInput: itemComponentType = {
     ...props,
     onChangeAction,
+    onFileChangeAction,
     onClickAction,
     value,
   };
@@ -82,12 +90,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
     case 'url':
       return <TextInput {...propsToInput} />;
     case 'file':
-      const propsToFile = {
-        ...props,
-        onChangeAction: handleFileSelected,
-        value,
-      };
-      return <FileInput {...propsToFile} />;
+      return <FileInput {...propsToInput} />;
     case 'button':
       return <ButtonInput {...propsToInput} />;
     case 'collapse':
@@ -98,6 +101,10 @@ const ItemComponent = (props: fieldType): ReactElement => {
       return <DateInput {...propsToInput} />;
     case 'radio':
       return <RadioInput {...propsToInput} />;
+    case 'select':
+      return <SelectInput {...propsToInput} />;
+    case 'range':
+      return <RangeInput {...propsToInput} />;
     default:
       return (
         <>
