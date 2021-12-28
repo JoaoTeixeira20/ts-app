@@ -9,14 +9,16 @@ import { fieldType } from '../../configuration/configurationv2';
 import { FormValuesContext } from '../../context/FormValuesContext';
 import { FormContext } from '../../context/FromContextv2';
 import { getValueFromDotNotationIndex, strToObj } from '../../helpers/utils';
-import TextInput from '../formv2/inputTypes/Text/TextInput';
-import Tabs from '../formv2/inputTypes/Tabs/InputTabs';
 import FormComponent from './FormComponent';
 import { handleFileRead } from '../../helpers/filehandler';
-import FileInput from '../formv2/inputTypes/File/FileInput';
-import ButtonInput from '../formv2/inputTypes/Button/ButtonInput';
-import CollapseInput from '../formv2/inputTypes/Collapse/CollapseInput';
+import TextInput from './inputTypes/Text/TextInput';
+import Tabs from './inputTypes/Tabs/InputTabs';
+import FileInput from './inputTypes/File/FileInput';
+import ButtonInput from './inputTypes/Button/ButtonInput';
+import CollapseInput from './inputTypes/Collapse/CollapseInput';
 import CheckboxInput from './inputTypes/Checkbox/CheckboxInput';
+import DateInput from './inputTypes/Date/DateInput';
+import RadioInput from './inputTypes/Radio/RadioInput';
 
 export type itemComponentType = fieldType & {
   onChangeAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
@@ -42,7 +44,6 @@ const ItemComponent = (props: fieldType): ReactElement => {
     const file: Blob =
       (event.currentTarget.files && event.currentTarget.files[0]) || new Blob();
     const result = await handleFileRead(file);
-    // setKeyValue({ key: field?.key || '', value: result?.toString() || '' });
     const nestedValue = strToObj(fieldidPath, result?.toString() || '');
     setValue(result?.toString() || '');
     mergeValues(nestedValue);
@@ -52,10 +53,6 @@ const ItemComponent = (props: fieldType): ReactElement => {
     console.log('you clicked ', props?.name);
     console.log('im on ', fieldidPath);
   };
-
-  // useEffect(() => {
-  //   // console.log(JSON.stringify(nestedValue, null, ' '));
-  // }, [value]);
 
   useEffect(() => {
     try {
@@ -97,6 +94,10 @@ const ItemComponent = (props: fieldType): ReactElement => {
       return <CollapseInput {...propsToInput} />;
     case 'checkbox':
       return <CheckboxInput {...propsToInput} />;
+    case 'date':
+      return <DateInput {...propsToInput} />;
+    case 'radio':
+      return <RadioInput {...propsToInput} />;
     default:
       return (
         <>

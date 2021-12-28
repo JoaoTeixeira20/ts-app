@@ -47,6 +47,39 @@ export const formConfig: formType = {
       name: 'checkboxcontent',
       type: 'checkbox',
     },
+    {
+      label: 'date input',
+      name: 'dateinput',
+      type: 'date',
+    },
+    {
+      label: 'radio input',
+      name: 'radioinput',
+      type: 'radio',
+      subForm: {
+        id: 'radiooptions',
+        fields: [
+          {
+            label: 'option 1',
+            name: 'option1',
+            type: 'radiooption',
+            value: 'option1',
+          },
+          {
+            label: 'option 2',
+            name: 'option2',
+            type: 'radiooption',
+            value: 'option2',
+          },
+          {
+            label: 'option 3',
+            name: 'option3',
+            type: 'radiooption',
+            value: 'option3',
+          },
+        ],
+      },
+    },
   ],
 };
 
