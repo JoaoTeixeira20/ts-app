@@ -1,7 +1,7 @@
 import React, { ReactElement, SyntheticEvent, useEffect } from 'react'; // we need this to make JSX compile
 
 import { fieldType, formType } from '../../../../configuration/configurationv2';
-import { FormComponent } from '../../../../context/FromContextv2';
+import FormComponent from '../../FormComponent';
 
 import * as S from './Tabs.styles';
 

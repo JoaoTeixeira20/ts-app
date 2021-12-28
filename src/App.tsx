@@ -6,7 +6,7 @@ import GlobalStyle from './styles/globalStyle';
 import { uploadConfiguration } from './configuration/configuration';
 import MultiRangeSlider from './components/form/inputTypes/MultiRangeSlider/MultiRangeSliderInput';
 import { Test } from './context/NestedContext';
-import { FormComponent } from './context/FromContextv2';
+import FormComponent from './components/formv2/FormComponent';
 import { formConfig } from './configuration/configurationv2';
 import { FormValuesContextProvider } from './context/FormValuesContext';
 import CheckFormStateTest from './components/testComponents/CheckFormStateTest';
