@@ -31,3 +31,7 @@ export const mergeDeep = (target: any, ...sources: any): any => {
 
   return mergeDeep(target, ...sources);
 };
+
+export const getValueFromDotNotationIndex = (obj: any, index: string) => {
+  return index.split('.').reduce((o, i) => o[i], obj);
+};

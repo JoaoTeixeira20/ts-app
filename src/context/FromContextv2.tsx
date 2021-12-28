@@ -7,12 +7,13 @@ import {
   useEffect,
   useState,
 } from 'react';
+import Tabs from '../components/formv2/inputTypes/Tabs/InputTabs';
 import { fieldType, formType } from '../configuration/configurationv2';
-import { strToObj } from '../helpers/utils';
+import { getValueFromDotNotationIndex, strToObj } from '../helpers/utils';
 import { FormValuesContext } from './FormValuesContext';
 
 type formContextType = {
-  id: string;
+  id?: string;
 };
 
 const FormContext = createContext({} as formContextType);
@@ -28,10 +29,6 @@ const FormContextProvider = (props: PropsWithChildren<formContextType>) => {
 const FormContextConsumer = (
   mainprops: PropsWithChildren<formContextType>
 ): ReactElement => {
-  const { values } = useContext(FormValuesContext);
-  const checkValues = () => {
-    console.log(values);
-  };
   return (
     <FormContext.Consumer>
       {(props: PropsWithChildren<formContextType>): ReactElement => {
@@ -47,7 +44,6 @@ const FormContextConsumer = (
             >
               {mainprops.children}
             </FormContextProvider>
-            <button onClick={checkValues}>check values</button>
           </>
         );
       }}
@@ -58,21 +54,34 @@ const FormContextConsumer = (
 const ItemComponent = (props: fieldType): ReactElement => {
   const [value, setValue] = useState<string>('');
   const { id } = useContext(FormContext);
-  const { mergeValues } = useContext(FormValuesContext);
+  const { values, mergeValues } = useContext(FormValuesContext);
+  const fieldidPath = `${id}.${props.name}`;
 
   const onChangeAction = (event: SyntheticEvent<HTMLInputElement>): void => {
-    setValue(event.currentTarget.value);
+    const actionValue = event.currentTarget.value;
+    const nestedValue = strToObj(fieldidPath, actionValue);
+    setValue(actionValue);
+    mergeValues(nestedValue);
   };
 
-  useEffect(() => {
-    const nestedValue = strToObj(`${id}.${props.name}`, value);
-    // console.log(JSON.stringify(nestedValue, null, ' '));
-    mergeValues(nestedValue);
-  }, [value]);
+  // useEffect(() => {
+  //   // console.log(JSON.stringify(nestedValue, null, ' '));
+  // }, [value]);
 
-  return (
+  useEffect(() => {
+    try {
+      const filteredValue = getValueFromDotNotationIndex(values, fieldidPath);
+      setValue(filteredValue);
+    } catch (e) {
+      console.log('cannot find key on values context');
+    }
+  }, []);
+
+  return props.type === 'tabs' ? (
+    <Tabs {...props} />
+  ) : (
     <>
-      {/* <div style={{ border: '1px solid red' }}> itemformid: {id}</div> */}
+      <div style={{ border: '1px solid red' }}>itemformid: {fieldidPath}</div>
       <div> label: {props.label}</div>
       <div> name: {props.name}</div>
       <input type='text' value={value} onChange={onChangeAction} />
@@ -94,7 +103,7 @@ const FormBuilder = (props: formType): ReactElement => {
 
   return (
     <>
-      <div style={{ border: '1px solid black' }}>{id}</div>
+      <div style={{ border: '1px solid black' }}>form id: {id}</div>
       {props.fields.map((field) => {
         return <ItemComponent key={field.name} {...field}></ItemComponent>;
       })}
@@ -105,7 +114,7 @@ const FormBuilder = (props: formType): ReactElement => {
 export const FormComponent = (props: wrappedFormType): ReactElement => {
   return (
     <>
-      <FormContextConsumer id={props.content.id}>
+      <FormContextConsumer id={props.content?.id}>
         <FormBuilder {...props.content} />
       </FormContextConsumer>
     </>

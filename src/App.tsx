@@ -9,6 +9,7 @@ import { Test } from './context/NestedContext';
 import { FormComponent } from './context/FromContextv2';
 import { formConfig } from './configuration/configurationv2';
 import { FormValuesContextProvider } from './context/FormValuesContext';
+import CheckFormStateTest from './components/testComponents/CheckFormStateTest';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       {/* <Test /> */}
       <FormValuesContextProvider>
         <FormComponent content={formConfig} />
+        <CheckFormStateTest />
       </FormValuesContextProvider>
     </div>
   );
