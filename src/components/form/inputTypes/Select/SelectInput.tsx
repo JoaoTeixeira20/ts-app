@@ -16,7 +16,14 @@ const SelectInput = (props: itemComponentType): ReactElement => {
 
   return (
     <>
-      <select name={props.name} onChange={onSelectChange}>
+      <select
+        name={props.name}
+        onChange={onSelectChange}
+        defaultValue={props.value}
+      >
+        <option disabled value=''>
+          --select one--
+        </option>
         {!Array.isArray(props.subForm) &&
           Array.isArray(props.subForm?.fields) &&
           props.subForm?.fields.map((field) => {
