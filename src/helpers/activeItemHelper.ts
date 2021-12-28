@@ -1,4 +1,4 @@
-import { fieldType, formType } from '../configuration/configuration';
+import { formType } from '../configuration/configuration';
 
 export const getActiveItemById = (
   form: formType | formType[] | undefined,

@@ -1,11 +1,6 @@
-import React, {
-  ReactElement,
-  SyntheticEvent,
-  useEffect,
-  useState,
-} from 'react'; // we need this to make JSX compile
+import { ReactElement, SyntheticEvent, useEffect, useState } from 'react'; // we need this to make JSX compile
 import { itemComponentType } from '../../ItemComponent';
-import { fieldType, formType } from '../../../../configuration/configuration';
+import { formType } from '../../../../configuration/configuration';
 import {
   getActiveItemById,
   isActiveItem,
@@ -29,7 +24,7 @@ const Tabs = (props: itemComponentType): ReactElement => {
         Array.isArray(props.subForm) ? props.subForm?.[0]?.id : ''
       )
     );
-  }, []);
+  }, [props.subForm]);
 
   return (
     <>

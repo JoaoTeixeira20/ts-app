@@ -1,4 +1,4 @@
-import { ReactElement, SyntheticEvent, useContext } from 'react';
+import { ReactElement, useContext } from 'react';
 import { FormValuesContext } from '../../context/FormValuesContext';
 
 const CheckFormStateTest = (): ReactElement => {

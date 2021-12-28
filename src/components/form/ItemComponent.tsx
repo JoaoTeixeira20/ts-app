@@ -68,7 +68,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
     } catch (e) {
       console.log('cannot find key on values context');
     }
-  }, []);
+  }, [fieldidPath, values]);
 
   const propsToInput: itemComponentType = {
     ...props,
