@@ -19,7 +19,7 @@ const SelectInput = (props: itemComponentType): ReactElement => {
       <select
         name={props.name}
         onChange={onSelectChange}
-        defaultValue={props.value}
+        defaultValue={props.defaultValue}
       >
         <option disabled value=''>
           --select one--
@@ -31,7 +31,7 @@ const SelectInput = (props: itemComponentType): ReactElement => {
               <option
                 key={field.name}
                 data-key={field.name}
-                value={field.value}
+                defaultValue={props.defaultValue}
               >
                 {field.label}
               </option>

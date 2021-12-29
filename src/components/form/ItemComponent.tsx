@@ -1,6 +1,7 @@
 import {
   ReactElement,
   SyntheticEvent,
+  useCallback,
   useContext,
   useEffect,
   useState,
@@ -28,54 +29,46 @@ export type itemComponentType = fieldType & {
   ) => void;
   onFileChangeAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
   onClickAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
+  defaultValue?: string;
 };
 
 const ItemComponent = (props: fieldType): ReactElement => {
-  const [value, setValue] = useState<string>('');
+  console.log('i rerendered item component');
+
   const { id } = useContext(FormPathContext);
-  const { values, mergeValues } = useContext(FormValuesContext);
+  const { getValueFromPath, setValueOnPath } = useContext(FormValuesContext);
   const fieldidPath = `${id}.${props.name}`;
 
-  const onChangeAction = (
-    event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>
-  ): void => {
-    const actionValue = event.currentTarget.value;
-    const nestedValue = strToObj(fieldidPath, actionValue);
-    setValue(actionValue);
-    mergeValues(nestedValue);
-  };
+  const onChangeAction = useCallback(
+    (event: SyntheticEvent<HTMLInputElement | HTMLSelectElement>): void => {
+      const actionValue = event.currentTarget.value;
+      setValueOnPath(id, props.name, actionValue);
+    },
+    []
+  );
 
-  const onFileChangeAction = async (
-    event: SyntheticEvent<HTMLInputElement>
-  ): Promise<void> => {
-    const file: Blob =
-      (event.currentTarget.files && event.currentTarget.files[0]) || new Blob();
-    const result = await handleFileRead(file);
-    const nestedValue = strToObj(fieldidPath, result?.toString() || '');
-    setValue(result?.toString() || '');
-    mergeValues(nestedValue);
-  };
+  const onFileChangeAction = useCallback(
+    async (event: SyntheticEvent<HTMLInputElement>): Promise<void> => {
+      const file: Blob =
+        (event.currentTarget.files && event.currentTarget.files[0]) ||
+        new Blob();
+      const result = await handleFileRead(file);
+      setValueOnPath(id, props.name, result?.toString() || '');
+    },
+    []
+  );
 
   const onClickAction = (_: SyntheticEvent<HTMLInputElement>) => {
     console.log('you clicked ', props?.name);
     console.log('im on ', fieldidPath);
   };
 
-  useEffect(() => {
-    try {
-      const filteredValue = getValueFromDotNotationIndex(values, fieldidPath);
-      setValue(filteredValue);
-    } catch (e) {
-      console.log('cannot find key on values context');
-    }
-  }, [fieldidPath, values]);
-
   const propsToInput: itemComponentType = {
     ...props,
     onChangeAction,
     onFileChangeAction,
     onClickAction,
-    value,
+    defaultValue: props.value || getValueFromPath(id, props.name),
   };
 
   switch (props.type) {
@@ -106,21 +99,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
     case 'range':
       return <RangeInput {...propsToInput} />;
     default:
-      return (
-        <>
-          <div style={{ border: '1px solid red' }}>
-            itemformid: {fieldidPath}
-          </div>
-          <div> label: {props.label}</div>
-          <div> name: {props.name}</div>
-          <input type='text' value={value} onChange={onChangeAction} />
-          {Array.isArray(props.subForm)
-            ? props.subForm.map((form) => {
-                return <FormComponent key={form.id} content={form} />;
-              })
-            : props.subForm && <FormComponent content={props.subForm} />}
-        </>
-      );
+      return <div>No implementation for {props.type}</div>;
   }
 };
 

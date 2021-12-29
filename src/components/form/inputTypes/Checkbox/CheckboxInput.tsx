@@ -4,7 +4,7 @@ import { itemComponentType } from '../../ItemComponent';
 
 const CheckboxInput = ({ ...props }: itemComponentType): ReactElement => {
   const [checked, setChecked] = useState<boolean>(
-    (props.value && JSON.parse(props.value)) || false
+    (props.defaultValue && JSON.parse(props.defaultValue)) || false
   );
   const checkBoxChangeAction = (event: SyntheticEvent<HTMLInputElement>) => {
     setChecked(!checked);

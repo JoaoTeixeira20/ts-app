@@ -9,7 +9,7 @@ const DateInput = ({ ...props }: itemComponentType): ReactElement => {
       <input
         type={props.type}
         onChange={props.onChangeAction}
-        value={props.value}
+        defaultValue={props.defaultValue}
       ></input>
     </div>
   );
