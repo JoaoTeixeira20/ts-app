@@ -1,3 +1,10 @@
+import { access } from 'fs';
+import {
+  formType,
+  formConfig,
+  fieldType,
+} from '../configuration/configuration';
+
 export const strToObj = (str: string, val: string) => {
   let i,
     obj: any = {},
@@ -34,4 +41,26 @@ export const mergeDeep = (target: any, ...sources: any): any => {
 
 export const getValueFromDotNotationIndex = (obj: any, index: string) => {
   return index.split('.').reduce((o, i) => o[i], obj);
+};
+
+export const buildDefaults = (form: formType): any => {
+  return {
+    [form.id]: form.fields
+      .map((field) => {
+        const fieldParam = { [field.name]: field.value };
+        const subForms = Array.isArray(field.subForm)
+          ? field.subForm
+              .map((form) => {
+                return buildDefaults(form);
+              })
+              .reduce((prev, curr) => {
+                return { ...prev, ...curr };
+              }, {})
+          : field.subForm && buildDefaults(field.subForm);
+        return { ...fieldParam, ...subForms };
+      })
+      .reduce((prev, curr) => {
+        return { ...prev, ...curr };
+      }, {}),
+  };
 };

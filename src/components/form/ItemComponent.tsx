@@ -24,8 +24,6 @@ export type itemComponentType = fieldType & {
 };
 
 const ItemComponent = (props: fieldType): ReactElement => {
-  console.log('i rerendered item component');
-
   const { id } = useContext(FormPathContext);
   const { getValueFromPath, setValueOnPath } = useContext(FormValuesContext);
   const fieldidPath = `${id}.${props.name}`;

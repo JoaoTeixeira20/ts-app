@@ -4,7 +4,9 @@ import { itemComponentType } from '../../ItemComponent';
 import * as S from './TextInput.styles';
 
 const TextInput = ({ ...props }: itemComponentType): ReactElement => {
-  console.log('i rerendered type', props.type, 'name', props.name);
+  const onBlurAction = (event: any) => {
+    console.log(event.currentTarget.value);
+  };
 
   return (
     <div>
@@ -14,6 +16,7 @@ const TextInput = ({ ...props }: itemComponentType): ReactElement => {
         defaultValue={props.defaultValue}
         name={props.name}
         onChange={props.onChangeAction}
+        onBlur={onBlurAction}
       ></S.TextInput>
     </div>
   );

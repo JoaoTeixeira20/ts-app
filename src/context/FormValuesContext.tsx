@@ -1,8 +1,10 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import { createContext, PropsWithChildren, useEffect, useState } from 'react';
+import { formConfig } from '../configuration/configuration';
 import {
   getValueFromDotNotationIndex,
   mergeDeep,
   strToObj,
+  buildDefaults,
 } from '../helpers/utils';
 
 interface IFormContext {
@@ -24,10 +26,16 @@ const FormValuesContextProvider = (
   props: PropsWithChildren<FormValuesContextProps>
 ) => {
   const [values, setValues] = useState<{ [k: string]: any }>({});
+  const [validations, setValidations] = useState<{ [k: string]: any }>({});
 
   const mergeValues = (valueToMerge: {}) => {
     const result = mergeDeep(values, valueToMerge);
     setValues(result);
+  };
+
+  const mergeValidations = (validationsToMerge: {}) => {
+    const result = mergeDeep(validations, validationsToMerge);
+    setValidations(result);
   };
 
   const getValueFromPath = (
@@ -50,6 +58,10 @@ const FormValuesContextProvider = (
   ): void => {
     mergeValues(strToObj(`${basePath}.${fieldname}`, value));
   };
+
+  useEffect(() => {
+    setValues(buildDefaults(formConfig));
+  }, []);
 
   const value = { values, getValueFromPath, setValueOnPath };
 

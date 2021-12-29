@@ -28,6 +28,7 @@ export const formConfig: formType = {
             label: 'input text',
             name: 'inputtext',
             type: 'text',
+            validation: 'collapseValidation',
           },
           {
             label: 'upload file',
@@ -141,11 +142,13 @@ export const formConfig: formType = {
               label: 'sftp username',
               name: 'sftpusername',
               type: 'text',
+              validation: 'usernameValidation',
             },
             {
               label: 'sftp username',
               name: 'sftppassword',
               type: 'password',
+              validation: 'passwordValidation',
             },
           ],
         },
@@ -199,6 +202,12 @@ export const formConfig: formType = {
       label: 'range input',
       name: 'rangeinput',
       type: 'range',
+    },
+    {
+      label: 'input validation test',
+      name: 'inputvalidationtest',
+      type: 'text',
+      validation: 'testvalidation',
     },
   ],
 };
