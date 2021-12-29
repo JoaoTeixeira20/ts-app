@@ -1,16 +1,7 @@
-import {
-  ReactElement,
-  SyntheticEvent,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { ReactElement, SyntheticEvent, useCallback, useContext } from 'react';
 import { fieldType } from '../../configuration/configuration';
 import { FormValuesContext } from '../../context/FormValuesContext';
 import { FormPathContext } from '../../context/FromPathContext';
-import { getValueFromDotNotationIndex, strToObj } from '../../helpers/utils';
-import FormComponent from './FormComponent';
 import { handleFileRead } from '../../helpers/filehandler';
 import TextInput from './inputTypes/Text/TextInput';
 import Tabs from './inputTypes/Tabs/InputTabs';
@@ -44,7 +35,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
       const actionValue = event.currentTarget.value;
       setValueOnPath(id, props.name, actionValue);
     },
-    []
+    [id, props.name, setValueOnPath]
   );
 
   const onFileChangeAction = useCallback(
@@ -55,7 +46,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
       const result = await handleFileRead(file);
       setValueOnPath(id, props.name, result?.toString() || '');
     },
-    []
+    [id, props.name, setValueOnPath]
   );
 
   const onClickAction = (_: SyntheticEvent<HTMLInputElement>) => {
