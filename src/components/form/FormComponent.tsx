@@ -15,7 +15,7 @@ const FormBuilder = (props: formType): ReactElement => {
 
   return (
     <>
-      <div style={{ border: '1px solid black' }}>form id: {id}</div>
+      <div style={{ border: '1px solid red', color: 'red' }}>form id: {id}</div>
       {props.fields.map((field) => {
         return <ItemComponent key={field.name} {...field}></ItemComponent>;
       })}

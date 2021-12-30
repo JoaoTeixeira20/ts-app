@@ -44,23 +44,26 @@ export const getValueFromDotNotationIndex = (obj: any, index: string) => {
 };
 
 export const buildDefaults = (form: formType): any => {
+  let subForms: formType | formType[];
   return {
     [form.id]: form.fields
       .map((field) => {
-        const fieldParam = { [field.name]: field.value };
-        const subForms = Array.isArray(field.subForm)
+        const fieldParam = { [field.name]: field.value || '' };
+        subForms = Array.isArray(field.subForm)
           ? field.subForm
               .map((form) => {
                 return buildDefaults(form);
               })
               .reduce((prev, curr) => {
-                return { ...prev, ...curr };
+                return { ...curr, ...prev };
               }, {})
           : field.subForm && buildDefaults(field.subForm);
         return { ...fieldParam, ...subForms };
       })
       .reduce((prev, curr) => {
-        return { ...prev, ...curr };
+        return { ...curr, ...prev };
       }, {}),
   };
 };
+
+// console.log(JSON.stringify(buildDefaults(formConfig), null, ' '));

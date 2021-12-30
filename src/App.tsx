@@ -20,7 +20,7 @@ function App() {
         }
       /> */}
       {/* <Test /> */}
-      <FormValuesContextProvider>
+      <FormValuesContextProvider formConfig={formConfig}>
         <FormComponent content={formConfig} />
         <CheckFormStateTest />
       </FormValuesContextProvider>
