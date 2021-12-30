@@ -9,7 +9,6 @@ const RadioInput = (props: itemComponentType): ReactElement => {
   const [activeItem, setActiveItem] = useState<formType | undefined>();
 
   const onSelectChange = (event: SyntheticEvent<HTMLInputElement>) => {
-    console.log(event.currentTarget.dataset['key']);
     const id = event.currentTarget.dataset['key'];
     setActiveItem(getFormByFieldItemId(props.subForm, id));
     props.onChangeAction && props.onChangeAction(event);
@@ -17,8 +16,7 @@ const RadioInput = (props: itemComponentType): ReactElement => {
 
   return (
     <div>
-      {!Array.isArray(props.subForm) &&
-        Array.isArray(props.subForm?.fields) &&
+      {props.subForm &&
         props.subForm?.fields.map((field) => {
           return (
             <div key={field.name}>

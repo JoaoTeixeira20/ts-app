@@ -40,11 +40,6 @@ const FormValuesContextProvider = (
     setValues(result);
   };
 
-  const mergeValidations = (validationsToMerge: {}) => {
-    const result = mergeDeep(validations, validationsToMerge);
-    setValidations(result);
-  };
-
   const getValueFromPath = (
     basePath: string | undefined,
     fieldName: string

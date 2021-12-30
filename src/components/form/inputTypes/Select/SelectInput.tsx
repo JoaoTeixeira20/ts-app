@@ -24,8 +24,7 @@ const SelectInput = (props: itemComponentType): ReactElement => {
         <option disabled value=''>
           --select one--
         </option>
-        {!Array.isArray(props.subForm) &&
-          Array.isArray(props.subForm?.fields) &&
+        {props.subForm &&
           props.subForm?.fields.map((field) => {
             return (
               <option

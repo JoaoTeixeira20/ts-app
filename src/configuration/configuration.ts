@@ -11,8 +11,90 @@ export type fieldType = {
   type: string;
   validation?: any;
   value?: string;
-  subForm?: formType | formType[];
+  subForm?: formType;
 };
+
+// export const formConfig: formType = {
+//   id: 'mainform',
+//   fields: [
+//     {
+//       label: 'collapse content',
+//       name: 'collapsecontent',
+//       type: 'collapse',
+//       subForm: {
+//         id: 'collapseform',
+//         fields: [
+//           {
+//             label: 'input text',
+//             name: 'inputtext',
+//             type: 'text',
+//             validation: 'collapseValidation',
+//           },
+//           {
+//             label: 'upload file',
+//             name: 'uploadfile',
+//             type: 'file',
+//           },
+//           {
+//             label: 'click me',
+//             name: 'clickme',
+//             type: 'button',
+//           },
+//         ],
+//       },
+//     },
+//     {
+//       label: 'tabs content',
+//       name: 'tabscontent',
+//       type: 'tabs',
+//       subForm: {
+//         id: 'tabsform',
+//         fields: [
+//           {
+//             label: 'tab content 1',
+//             name: 'tabcontent1',
+//             type: 'tabsform',
+//             subForm: {
+//               id: 'tabsform1',
+//               fields: [
+//                 {
+//                   label: 'tabform1 text',
+//                   name: 'tabform1text',
+//                   type: 'text',
+//                 },
+//                 {
+//                   label: 'tabform2 text',
+//                   name: 'tabform2text',
+//                   type: 'text',
+//                 },
+//               ],
+//             },
+//           },
+//           {
+//             label: 'tab content 2',
+//             name: 'tabcontent2',
+//             type: 'tabsform',
+//             subForm: {
+//               id: 'tabsform2',
+//               fields: [
+//                 {
+//                   label: 'tabform4 text',
+//                   name: 'tabform1text',
+//                   type: 'text',
+//                 },
+//                 {
+//                   label: 'tabform5 text',
+//                   name: 'tabform2text',
+//                   type: 'text',
+//                 },
+//               ],
+//             },
+//           },
+//         ],
+//       },
+//     },
+//   ],
+// };
 
 export const formConfig: formType = {
   id: 'mainform',
@@ -128,73 +210,54 @@ export const formConfig: formType = {
                   type: 'button',
                 },
                 {
-                  label: 'tabs example',
-                  name: 'tabexample',
+                  label: 'tabs content',
+                  name: 'tabscontent',
                   type: 'tabs',
-                  subForm: [
-                    {
-                      id: 'sftpconfig',
-                      label: 'sftp configuration',
-                      fields: [
-                        {
-                          label: 'sftp username',
-                          name: 'sftpusername',
-                          type: 'text',
-                          validation: 'usernameValidation',
+                  subForm: {
+                    id: 'tabsform',
+                    fields: [
+                      {
+                        label: 'tab content 1',
+                        name: 'tabcontent1',
+                        type: 'tabsform',
+                        subForm: {
+                          id: 'tabsform1',
+                          fields: [
+                            {
+                              label: 'tabform1 text',
+                              name: 'tabform1text',
+                              type: 'text',
+                            },
+                            {
+                              label: 'tabform2 text',
+                              name: 'tabform2text',
+                              type: 'text',
+                            },
+                          ],
                         },
-                        {
-                          label: 'sftp username',
-                          name: 'sftppassword',
-                          type: 'password',
-                          validation: 'passwordValidation',
+                      },
+                      {
+                        label: 'tab content 2',
+                        name: 'tabcontent2',
+                        type: 'tabsform',
+                        subForm: {
+                          id: 'tabsform2',
+                          fields: [
+                            {
+                              label: 'tabform4 text',
+                              name: 'tabform1text',
+                              type: 'text',
+                            },
+                            {
+                              label: 'tabform5 text',
+                              name: 'tabform2text',
+                              type: 'text',
+                            },
+                          ],
                         },
-                      ],
-                    },
-                    {
-                      id: 'pgpconfig',
-                      label: 'pgp configuration',
-                      fields: [
-                        {
-                          label: 'pgp username',
-                          name: 'pgppusername',
-                          type: 'text',
-                        },
-                        {
-                          label: 'pgp password',
-                          name: 'pgpppassword',
-                          type: 'password',
-                        },
-                        {
-                          label: 'radio input',
-                          name: 'radioinput',
-                          type: 'radio',
-                          subForm: {
-                            id: 'radiooptions',
-                            fields: [
-                              {
-                                label: 'option 1',
-                                name: 'option1',
-                                type: 'radiooption',
-                                value: 'option1',
-                              },
-                              {
-                                label: 'option 2',
-                                name: 'option2',
-                                type: 'radiooption',
-                                value: 'option2',
-                              },
-                              {
-                                label: 'option 3',
-                                name: 'option3',
-                                type: 'radiooption',
-                                value: 'option3',
-                              },
-                            ],
-                          },
-                        },
-                      ],
-                    },
-                  ],
+                      },
+                    ],
+                  },
                 },
               ],
             },
@@ -209,73 +272,54 @@ export const formConfig: formType = {
       },
     },
     {
-      label: 'tabs example',
-      name: 'tabexample',
+      label: 'tabs content',
+      name: 'tabscontent',
       type: 'tabs',
-      subForm: [
-        {
-          id: 'sftpconfig',
-          label: 'sftp configuration',
-          fields: [
-            {
-              label: 'sftp username',
-              name: 'sftpusername',
-              type: 'text',
-              validation: 'usernameValidation',
+      subForm: {
+        id: 'tabsform',
+        fields: [
+          {
+            label: 'tab content 1',
+            name: 'tabcontent1',
+            type: 'tabsform',
+            subForm: {
+              id: 'tabsform1',
+              fields: [
+                {
+                  label: 'tabform1 text',
+                  name: 'tabform1text',
+                  type: 'text',
+                },
+                {
+                  label: 'tabform2 text',
+                  name: 'tabform2text',
+                  type: 'text',
+                },
+              ],
             },
-            {
-              label: 'sftp username',
-              name: 'sftppassword',
-              type: 'password',
-              validation: 'passwordValidation',
+          },
+          {
+            label: 'tab content 2',
+            name: 'tabcontent2',
+            type: 'tabsform',
+            subForm: {
+              id: 'tabsform2',
+              fields: [
+                {
+                  label: 'tabform4 text',
+                  name: 'tabform1text',
+                  type: 'text',
+                },
+                {
+                  label: 'tabform5 text',
+                  name: 'tabform2text',
+                  type: 'text',
+                },
+              ],
             },
-          ],
-        },
-        {
-          id: 'pgpconfig',
-          label: 'pgp configuration',
-          fields: [
-            {
-              label: 'pgp username',
-              name: 'pgppusername',
-              type: 'text',
-            },
-            {
-              label: 'pgp password',
-              name: 'pgpppassword',
-              type: 'password',
-            },
-            {
-              label: 'radio input',
-              name: 'radioinput',
-              type: 'radio',
-              subForm: {
-                id: 'radiooptions',
-                fields: [
-                  {
-                    label: 'option 1',
-                    name: 'option1',
-                    type: 'radiooption',
-                    value: 'option1',
-                  },
-                  {
-                    label: 'option 2',
-                    name: 'option2',
-                    type: 'radiooption',
-                    value: 'option2',
-                  },
-                  {
-                    label: 'option 3',
-                    name: 'option3',
-                    type: 'radiooption',
-                    value: 'option3',
-                  },
-                ],
-              },
-            },
-          ],
-        },
-      ],
+          },
+        ],
+      },
     },
     {
       label: 'range input',

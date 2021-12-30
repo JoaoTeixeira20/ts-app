@@ -4,7 +4,6 @@ import { FormValuesContext } from '../../context/FormValuesContext';
 import { FormPathContext } from '../../context/FromPathContext';
 import { handleFileRead } from '../../helpers/filehandler';
 import TextInput from './inputTypes/Text/TextInput';
-import Tabs from './inputTypes/Tabs/InputTabs';
 import FileInput from './inputTypes/File/FileInput';
 import ButtonInput from './inputTypes/Button/ButtonInput';
 import CollapseInput from './inputTypes/Collapse/CollapseInput';
@@ -13,6 +12,7 @@ import DateInput from './inputTypes/Date/DateInput';
 import RadioInput from './inputTypes/Radio/RadioInput';
 import SelectInput from './inputTypes/Select/SelectInput';
 import RangeInput from './inputTypes/Range/RangeInput';
+import Tabs from './inputTypes/Tabs/InputTabs';
 
 export type itemComponentType = fieldType & {
   onChangeAction?: (

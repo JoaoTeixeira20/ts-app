@@ -3,48 +3,52 @@ import { itemComponentType } from '../../ItemComponent';
 import { formType } from '../../../../configuration/configuration';
 import {
   getActiveItemById,
+  getFormByFieldItemId,
   isActiveItem,
 } from '../../../../helpers/activeItemHelper';
-import FormComponent from '../../FormComponent';
 
 import * as S from './Tabs.styles';
+import NestedFormComponent from '../../NestedFormComponent';
 
 const Tabs = (props: itemComponentType): ReactElement => {
   const [activeItem, setActiveItem] = useState<formType | undefined>();
 
+  const elementsForm = props.subForm?.fields.map((field) => {
+    return field.subForm as formType;
+  });
+
   const changeItems = (event: SyntheticEvent<HTMLDivElement>): void => {
     const value = event.currentTarget.dataset['id'];
-    setActiveItem(getActiveItemById(props.subForm, value));
+    setActiveItem(getFormByFieldItemId(props.subForm, value));
   };
 
   useEffect(() => {
-    setActiveItem(
-      getActiveItemById(
-        props.subForm,
-        Array.isArray(props.subForm) ? props.subForm?.[0]?.id : ''
-      )
-    );
-  }, [props.subForm]);
+    setActiveItem(getActiveItemById(elementsForm, elementsForm?.[0].id));
+  }, [elementsForm]);
 
   return (
     <>
       <S.TabsContainer>
-        {Array.isArray(props.subForm) &&
-          props.subForm?.map((subFormItem) => {
-            return (
-              <S.TabItem
-                isActive={isActiveItem(activeItem, subFormItem.id)}
-                onClick={changeItems}
-                key={subFormItem.id}
-                data-id={subFormItem.id}
-              >
-                {subFormItem.label}
-              </S.TabItem>
-            );
-          })}
+        {props.subForm?.fields.map((subFormItem) => {
+          return (
+            <S.TabItem
+              isActive={isActiveItem(activeItem, subFormItem.subForm?.id)}
+              onClick={changeItems}
+              key={subFormItem.subForm?.id}
+              data-id={subFormItem.name}
+            >
+              {subFormItem.label}
+            </S.TabItem>
+          );
+        })}
       </S.TabsContainer>
       <S.TabsContentContainer>
-        {activeItem && <FormComponent content={activeItem} />}
+        {activeItem && (
+          <NestedFormComponent
+            activeItem={activeItem}
+            subForm={props.subForm}
+          />
+        )}
       </S.TabsContentContainer>
     </>
   );

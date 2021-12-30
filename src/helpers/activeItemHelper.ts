@@ -1,10 +1,10 @@
 import { fieldType, formType } from '../configuration/configuration';
 
 export const getActiveItemById = (
-  form: formType | formType[] | undefined,
+  form: formType[] | undefined,
   id: string | undefined
 ): formType | undefined => {
-  return Array.isArray(form) ? form.find((el) => el.id === id) : undefined;
+  return form?.find((el) => el.id === id);
 };
 
 export const getActiveFieldById = (
@@ -15,18 +15,16 @@ export const getActiveFieldById = (
 };
 
 export const getFormByFieldItemId = (
-  form: formType | formType[] | undefined,
+  form: formType | undefined,
   id: string | undefined
 ): formType | undefined => {
-  const result = !Array.isArray(form)
-    ? form?.fields.find((el) => el.name === id)
-    : undefined;
-  return !Array.isArray(result?.subForm) ? result?.subForm : undefined;
+  const result = form?.fields.find((el) => el.name === id);
+  return result?.subForm;
 };
 
 export const isActiveItem = (
   form: formType | undefined,
-  id: string
+  id: string | undefined
 ): boolean => {
   return form?.id === id;
 };

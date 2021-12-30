@@ -44,15 +44,7 @@ export const buildDefaults = (form: formType): any => {
     [form.id]: form.fields
       .map((field) => {
         const fieldParam = { [field.name]: field.value || '' };
-        subForms = Array.isArray(field.subForm)
-          ? field.subForm
-              .map((form) => {
-                return buildDefaults(form);
-              })
-              .reduce((prev, curr) => {
-                return { ...curr, ...prev };
-              }, {})
-          : field.subForm && buildDefaults(field.subForm);
+        subForms = field.subForm && buildDefaults(field.subForm);
         return { ...fieldParam, ...subForms };
       })
       .reduce((prev, curr) => {

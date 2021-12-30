@@ -3,13 +3,12 @@ import { formType } from '../../configuration/configuration';
 import FormComponent from './FormComponent';
 
 type nestedFormComponentType = {
-  subForm: formType | formType[] | undefined;
+  subForm: formType | undefined;
   activeItem: formType;
 };
 
 const NestedFormComponent = (props: nestedFormComponentType): ReactElement => {
-  const formPath =
-    props.subForm && !Array.isArray(props.subForm) && props.subForm.id;
+  const formPath = props.subForm && props.subForm.id;
 
   return (
     <FormComponent

@@ -17,9 +17,7 @@ const CollapseInput = ({ ...props }: itemComponentType): ReactElement => {
       <S.CollapseItem isActive={opened} onClick={toggleCollapse}>
         {props.label}
       </S.CollapseItem>
-      {opened && !Array.isArray(props.subForm) && props.subForm && (
-        <FormComponent content={props.subForm} />
-      )}
+      {opened && props.subForm && <FormComponent content={props.subForm} />}
     </>
   );
 };
