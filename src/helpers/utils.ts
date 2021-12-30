@@ -54,5 +54,3 @@ export const buildDefaults = (form: formType): any => {
 
   return fields;
 };
-
-console.log(JSON.stringify(buildDefaults(formConfig), null, ' '));

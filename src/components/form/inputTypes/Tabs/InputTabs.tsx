@@ -24,7 +24,7 @@ const Tabs = (props: itemComponentType): ReactElement => {
 
   useEffect(() => {
     setActiveItem(getActiveItemById(elementsForm, elementsForm?.[0].id));
-  }, [elementsForm]);
+  }, []);
 
   return (
     <>

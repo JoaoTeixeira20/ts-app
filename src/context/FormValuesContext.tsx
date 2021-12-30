@@ -1,4 +1,4 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { formType } from '../configuration/configuration';
 import {
   getValueFromDotNotationIndex,
@@ -28,21 +28,34 @@ const FormValuesContext = createContext({} as IFormContext);
 const FormValuesContextProvider = (
   props: PropsWithChildren<FormValuesContextProps>
 ) => {
-  const [values, setValues] = useState<{ [k: string]: any }>(
-    buildDefaults(props.formConfig)
-  );
+  const initialValues = () => {
+    const initialState = buildDefaults(props.formConfig);
+    try {
+      const valuesFromStore = JSON.parse(window.electronAPI.getData());
+      return mergeDeep(initialState, valuesFromStore);
+    } catch (e: any) {
+      console.log(
+        'there was a problem loading values from store, desc:',
+        e.message
+      );
+      return initialState;
+    }
+  };
+
+  const [values, setValues] = useState<{ [k: string]: any }>(initialValues());
   const [validations, setValidations] = useState<{ [k: string]: any }>({});
 
   const formConfig = props.formConfig;
 
   const mergeValues = (valueToMerge: {}) => {
     const result = mergeDeep(values, valueToMerge);
+    setStoreValues(result);
     setValues(result);
   };
 
   const getValueFromPath = (
     basePath: string | undefined,
-    fieldName: string
+    fieldName: string | undefined
   ): string => {
     const fieldPath = `${basePath}.${fieldName}`;
     try {
@@ -63,6 +76,22 @@ const FormValuesContextProvider = (
   };
 
   const value = { values, formConfig, getValueFromPath, setValueOnPath };
+
+  useEffect(() => {
+    try {
+      const valuesFromStore = JSON.parse(window.electronAPI.getData());
+      mergeValues(valuesFromStore);
+    } catch (e: any) {
+      console.log(
+        'there was a problem loading values from store, desc:',
+        e.message
+      );
+    }
+  }, []);
+
+  const setStoreValues = (values: {}): void => {
+    window.electronAPI.storeData(JSON.stringify(values));
+  };
 
   return (
     <FormValuesContext.Provider value={value}>

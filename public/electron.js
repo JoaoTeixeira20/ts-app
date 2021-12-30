@@ -19,8 +19,8 @@ function createWindow() {
   // store and events to manage data
   let store = new Store();
 
-  ipcMain.on('store-data', (event, {key, value}) => {
-    store.set(`form.${key}`, value);
+  ipcMain.on('store-data', (event, data) => {
+    store.set(`form`, data);
   });
 
   ipcMain.on('get-data', (event) => {

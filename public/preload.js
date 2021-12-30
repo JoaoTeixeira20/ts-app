@@ -8,8 +8,8 @@ const { contextBridge, ipcRenderer } = require("electron");
 process.once("loaded", () => {
   contextBridge.exposeInMainWorld("versions", process.versions);
   contextBridge.exposeInMainWorld('electronAPI', {
-    storeData: ({key, value}) => { 
-      ipcRenderer.send('store-data',{key, value});
+    storeData: (value) => { 
+      ipcRenderer.send('store-data',value);
      },
     getData: () => {
       return ipcRenderer.sendSync('get-data');
