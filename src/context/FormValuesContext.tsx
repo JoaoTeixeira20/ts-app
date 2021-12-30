@@ -1,5 +1,5 @@
-import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { formConfig, formType } from '../configuration/configuration';
+import { createContext, PropsWithChildren, useState } from 'react';
+import { formType } from '../configuration/configuration';
 import {
   getValueFromDotNotationIndex,
   mergeDeep,

@@ -2,7 +2,7 @@ import { ReactElement, SyntheticEvent, useState } from 'react';
 import { itemComponentType } from '../../ItemComponent';
 import { getFormByFieldItemId } from '../../../../helpers/activeItemHelper';
 import { formType } from '../../../../configuration/configuration';
-import FormComponent from '../../FormComponent';
+import NestedFormComponent from '../../NestedFormComponent';
 
 const SelectInput = (props: itemComponentType): ReactElement => {
   const [activeItem, setActiveItem] = useState<formType | undefined>();
@@ -38,7 +38,9 @@ const SelectInput = (props: itemComponentType): ReactElement => {
             );
           })}
       </select>
-      {activeItem && <FormComponent content={activeItem} />}
+      {activeItem && (
+        <NestedFormComponent activeItem={activeItem} subForm={props.subForm} />
+      )}
     </>
   );
 };

@@ -60,36 +60,49 @@ const ItemComponent = (props: fieldType): ReactElement => {
     defaultValue: props.value || getValueFromPath(id, props.name),
   };
 
-  switch (props.type) {
-    case 'tabs':
-      return <Tabs {...props} />;
-    case 'text':
-    case 'password':
-    case 'email':
-    case 'tel':
-    case 'number':
-    case 'search':
-    case 'url':
-      return <TextInput {...propsToInput} />;
-    case 'file':
-      return <FileInput {...propsToInput} />;
-    case 'button':
-      return <ButtonInput {...propsToInput} />;
-    case 'collapse':
-      return <CollapseInput {...propsToInput} />;
-    case 'checkbox':
-      return <CheckboxInput {...propsToInput} />;
-    case 'date':
-      return <DateInput {...propsToInput} />;
-    case 'radio':
-      return <RadioInput {...propsToInput} />;
-    case 'select':
-      return <SelectInput {...propsToInput} />;
-    case 'range':
-      return <RangeInput {...propsToInput} />;
-    default:
-      return <div>No implementation for {props.type}</div>;
-  }
+  const getType = (props: fieldType) => {
+    switch (props.type) {
+      case 'tabs':
+        return <Tabs {...props} />;
+      case 'text':
+      case 'password':
+      case 'email':
+      case 'tel':
+      case 'number':
+      case 'search':
+      case 'url':
+        return <TextInput {...propsToInput} />;
+      case 'file':
+        return <FileInput {...propsToInput} />;
+      case 'button':
+        return <ButtonInput {...propsToInput} />;
+      case 'collapse':
+        return <CollapseInput {...propsToInput} />;
+      case 'checkbox':
+        return <CheckboxInput {...propsToInput} />;
+      case 'date':
+        return <DateInput {...propsToInput} />;
+      case 'radio':
+        return <RadioInput {...propsToInput} />;
+      case 'select':
+        return <SelectInput {...propsToInput} />;
+      case 'range':
+        return <RangeInput {...propsToInput} />;
+      default:
+        return (
+          <div style={{ color: 'red' }}>
+            WARNING: No implementation for {props.type}
+          </div>
+        );
+    }
+  };
+
+  return (
+    <>
+      <div style={{ color: 'orange' }}>field id: {fieldidPath}</div>
+      {getType(props)}
+    </>
+  );
 };
 
 export default ItemComponent;

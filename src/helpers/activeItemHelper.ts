@@ -1,10 +1,17 @@
-import { formType } from '../configuration/configuration';
+import { fieldType, formType } from '../configuration/configuration';
 
 export const getActiveItemById = (
   form: formType | formType[] | undefined,
   id: string | undefined
 ): formType | undefined => {
   return Array.isArray(form) ? form.find((el) => el.id === id) : undefined;
+};
+
+export const getActiveFieldById = (
+  fields: fieldType[] | undefined,
+  name: string | undefined
+) => {
+  return fields?.find((field) => field.name === name);
 };
 
 export const getFormByFieldItemId = (

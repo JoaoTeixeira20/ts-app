@@ -1,9 +1,4 @@
-import { access } from 'fs';
-import {
-  formType,
-  formConfig,
-  fieldType,
-} from '../configuration/configuration';
+import { formConfig, formType } from '../configuration/configuration';
 
 export const strToObj = (str: string, val: string) => {
   let i,
@@ -44,8 +39,8 @@ export const getValueFromDotNotationIndex = (obj: any, index: string) => {
 };
 
 export const buildDefaults = (form: formType): any => {
-  let subForms: formType | formType[];
-  return {
+  let subForms: {};
+  const fields = {
     [form.id]: form.fields
       .map((field) => {
         const fieldParam = { [field.name]: field.value || '' };
@@ -64,6 +59,8 @@ export const buildDefaults = (form: formType): any => {
         return { ...curr, ...prev };
       }, {}),
   };
+
+  return fields;
 };
 
-// console.log(JSON.stringify(buildDefaults(formConfig), null, ' '));
+console.log(JSON.stringify(buildDefaults(formConfig), null, ' '));

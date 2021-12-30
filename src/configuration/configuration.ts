@@ -58,7 +58,7 @@ export const formConfig: formType = {
       name: 'radioinput',
       type: 'radio',
       subForm: {
-        id: 'radiooptions',
+        id: 'radiooptionsroot',
         fields: [
           {
             label: 'option 1',
@@ -77,6 +77,16 @@ export const formConfig: formType = {
             name: 'option3',
             type: 'radiooption',
             value: 'option3',
+            subForm: {
+              id: 'radiooption3form',
+              fields: [
+                {
+                  label: 'option 3 form',
+                  name: 'option3form',
+                  type: 'text',
+                },
+              ],
+            },
           },
         ],
       },
@@ -116,6 +126,75 @@ export const formConfig: formType = {
                   label: 'click me',
                   name: 'clickme',
                   type: 'button',
+                },
+                {
+                  label: 'tabs example',
+                  name: 'tabexample',
+                  type: 'tabs',
+                  subForm: [
+                    {
+                      id: 'sftpconfig',
+                      label: 'sftp configuration',
+                      fields: [
+                        {
+                          label: 'sftp username',
+                          name: 'sftpusername',
+                          type: 'text',
+                          validation: 'usernameValidation',
+                        },
+                        {
+                          label: 'sftp username',
+                          name: 'sftppassword',
+                          type: 'password',
+                          validation: 'passwordValidation',
+                        },
+                      ],
+                    },
+                    {
+                      id: 'pgpconfig',
+                      label: 'pgp configuration',
+                      fields: [
+                        {
+                          label: 'pgp username',
+                          name: 'pgppusername',
+                          type: 'text',
+                        },
+                        {
+                          label: 'pgp password',
+                          name: 'pgpppassword',
+                          type: 'password',
+                        },
+                        {
+                          label: 'radio input',
+                          name: 'radioinput',
+                          type: 'radio',
+                          subForm: {
+                            id: 'radiooptions',
+                            fields: [
+                              {
+                                label: 'option 1',
+                                name: 'option1',
+                                type: 'radiooption',
+                                value: 'option1',
+                              },
+                              {
+                                label: 'option 2',
+                                name: 'option2',
+                                type: 'radiooption',
+                                value: 'option2',
+                              },
+                              {
+                                label: 'option 3',
+                                name: 'option3',
+                                type: 'radiooption',
+                                value: 'option3',
+                              },
+                            ],
+                          },
+                        },
+                      ],
+                    },
+                  ],
                 },
               ],
             },

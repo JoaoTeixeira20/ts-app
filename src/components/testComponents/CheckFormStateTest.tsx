@@ -10,7 +10,14 @@ const CheckFormStateTest = (): ReactElement => {
   return (
     <>
       <button onClick={checkValues}>check context state brah</button>;
-      <div style={{ whiteSpace: 'pre-wrap', fontSize: '10px' }}>
+      <div
+        style={{
+          whiteSpace: 'pre-wrap',
+          textAlign: 'left',
+          height: '290px',
+          overflowY: 'auto',
+        }}
+      >
         {JSON.stringify(values, null, ' ')}
       </div>
       ;
