@@ -10,6 +10,7 @@ import {
 interface IFormContext {
   values: {};
   formConfig: formType;
+  setFormConfig: (formConfig: formType) => void;
   // mergeValues: (valueToMerge: {}) => void;
   getValueFromPath: (basePath: string | undefined, fieldName: string) => string;
   setValueOnPath: (
@@ -43,9 +44,7 @@ const FormValuesContextProvider = (
   };
 
   const [values, setValues] = useState<{ [k: string]: any }>(initialValues());
-  const [validations, setValidations] = useState<{ [k: string]: any }>({});
-
-  const formConfig = props.formConfig;
+  const [formConfig, setFormConfig] = useState<formType>(props.formConfig);
 
   const mergeValues = (valueToMerge: {}) => {
     const result = mergeDeep(values, valueToMerge);
@@ -75,8 +74,6 @@ const FormValuesContextProvider = (
     mergeValues(strToObj(`${basePath}.${fieldname}`, value));
   };
 
-  const value = { values, formConfig, getValueFromPath, setValueOnPath };
-
   useEffect(() => {
     try {
       const valuesFromStore = JSON.parse(window.electronAPI.getData());
@@ -91,6 +88,14 @@ const FormValuesContextProvider = (
 
   const setStoreValues = (values: {}): void => {
     window.electronAPI.storeData(JSON.stringify(values));
+  };
+
+  const value = {
+    values,
+    formConfig,
+    setFormConfig,
+    getValueFromPath,
+    setValueOnPath,
   };
 
   return (

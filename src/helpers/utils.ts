@@ -1,4 +1,4 @@
-import { formConfig, formType } from '../configuration/configuration';
+import { formType } from '../configuration/configuration';
 
 export const strToObj = (str: string, val: string) => {
   let i,
@@ -39,12 +39,11 @@ export const getValueFromDotNotationIndex = (obj: any, index: string) => {
 };
 
 export const buildDefaults = (form: formType): any => {
-  let subForms: {};
   const fields = {
     [form.id]: form.fields
       .map((field) => {
         const fieldParam = { [field.name]: field.value || '' };
-        subForms = field.subForm && buildDefaults(field.subForm);
+        const subForms = field.subForm && buildDefaults(field.subForm);
         return { ...fieldParam, ...subForms };
       })
       .reduce((prev, curr) => {

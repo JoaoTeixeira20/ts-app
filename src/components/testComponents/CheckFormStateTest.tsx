@@ -1,26 +1,25 @@
-import { ReactElement, useContext } from 'react';
+import { ReactElement, useContext, useState } from 'react';
+import { formConfig2, formConfig } from '../../configuration/configuration';
 import { FormValuesContext } from '../../context/FormValuesContext';
 
 const CheckFormStateTest = (): ReactElement => {
-  const { values } = useContext(FormValuesContext);
+  const { values, setFormConfig } = useContext(FormValuesContext);
+  const [config, setConfig] = useState<boolean>(false);
 
   const checkValues = () => {
     console.log(JSON.stringify(values, null, ' '));
   };
+
+  const toggleFormConfig = () => {
+    setConfig(!config);
+    setFormConfig(config ? formConfig : formConfig2);
+  };
+
   return (
     <>
-      <button onClick={checkValues}>check context state brah</button>;
-      <div
-        style={{
-          whiteSpace: 'pre-wrap',
-          textAlign: 'left',
-          height: '290px',
-          overflowY: 'auto',
-        }}
-      >
-        {JSON.stringify(values, null, ' ')}
-      </div>
-      ;
+      <button onClick={checkValues}>check context state brah</button>
+      <button onClick={toggleFormConfig}>toggle form config</button>
+      {/* <div>{JSON.stringify(values)}</div> */}
     </>
   );
 };

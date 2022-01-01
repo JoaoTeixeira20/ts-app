@@ -14,87 +14,87 @@ export type fieldType = {
   subForm?: formType;
 };
 
-// export const formConfig: formType = {
-//   id: 'mainform',
-//   fields: [
-//     {
-//       label: 'collapse content',
-//       name: 'collapsecontent',
-//       type: 'collapse',
-//       subForm: {
-//         id: 'collapseform',
-//         fields: [
-//           {
-//             label: 'input text',
-//             name: 'inputtext',
-//             type: 'text',
-//             validation: 'collapseValidation',
-//           },
-//           {
-//             label: 'upload file',
-//             name: 'uploadfile',
-//             type: 'file',
-//           },
-//           {
-//             label: 'click me',
-//             name: 'clickme',
-//             type: 'button',
-//           },
-//         ],
-//       },
-//     },
-//     {
-//       label: 'tabs content',
-//       name: 'tabscontent',
-//       type: 'tabs',
-//       subForm: {
-//         id: 'tabsform',
-//         fields: [
-//           {
-//             label: 'tab content 1',
-//             name: 'tabcontent1',
-//             type: 'tabsform',
-//             subForm: {
-//               id: 'tabsform1',
-//               fields: [
-//                 {
-//                   label: 'tabform1 text',
-//                   name: 'tabform1text',
-//                   type: 'text',
-//                 },
-//                 {
-//                   label: 'tabform2 text',
-//                   name: 'tabform2text',
-//                   type: 'text',
-//                 },
-//               ],
-//             },
-//           },
-//           {
-//             label: 'tab content 2',
-//             name: 'tabcontent2',
-//             type: 'tabsform',
-//             subForm: {
-//               id: 'tabsform2',
-//               fields: [
-//                 {
-//                   label: 'tabform4 text',
-//                   name: 'tabform1text',
-//                   type: 'text',
-//                 },
-//                 {
-//                   label: 'tabform5 text',
-//                   name: 'tabform2text',
-//                   type: 'text',
-//                 },
-//               ],
-//             },
-//           },
-//         ],
-//       },
-//     },
-//   ],
-// };
+export const formConfig2: formType = {
+  id: 'mainform',
+  fields: [
+    {
+      label: 'collapse content',
+      name: 'collapsecontent',
+      type: 'collapse',
+      subForm: {
+        id: 'collapseform',
+        fields: [
+          {
+            label: 'input text',
+            name: 'inputtext',
+            type: 'text',
+            validation: 'collapseValidation',
+          },
+          {
+            label: 'upload file',
+            name: 'uploadfile',
+            type: 'file',
+          },
+          {
+            label: 'click me',
+            name: 'clickme',
+            type: 'button',
+          },
+        ],
+      },
+    },
+    {
+      label: 'tabs content',
+      name: 'tabscontent',
+      type: 'tabs',
+      subForm: {
+        id: 'tabsform',
+        fields: [
+          {
+            label: 'tab content 1',
+            name: 'tabcontent1',
+            type: 'tabsform',
+            subForm: {
+              id: 'tabsform1',
+              fields: [
+                {
+                  label: 'tabform1 text',
+                  name: 'tabform1text',
+                  type: 'text',
+                },
+                {
+                  label: 'tabform2 text',
+                  name: 'tabform2text',
+                  type: 'text',
+                },
+              ],
+            },
+          },
+          {
+            label: 'tab content 2',
+            name: 'tabcontent2',
+            type: 'tabsform',
+            subForm: {
+              id: 'tabsform2',
+              fields: [
+                {
+                  label: 'tabform4 text',
+                  name: 'tabform1text',
+                  type: 'text',
+                },
+                {
+                  label: 'tabform5 text',
+                  name: 'tabform2text',
+                  type: 'text',
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+};
 
 export const formConfig: formType = {
   id: 'mainform',

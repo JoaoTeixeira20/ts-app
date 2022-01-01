@@ -1,4 +1,4 @@
-import { ReactElement, SyntheticEvent, useState } from 'react'; // we need this to make JSX compile
+import { ReactElement, SyntheticEvent, useEffect, useState } from 'react'; // we need this to make JSX compile
 import { formType } from '../../../../configuration/configuration';
 import { getFormByFieldItemId } from '../../../../helpers/activeItemHelper';
 
@@ -13,6 +13,12 @@ const RadioInput = (props: itemComponentType): ReactElement => {
     setActiveItem(getFormByFieldItemId(props.subForm, id));
     props.onChangeAction && props.onChangeAction(event);
   };
+
+  useEffect(() => {
+    setActiveItem(
+      getFormByFieldItemId(props.subForm, props.subForm?.fields[0].name)
+    );
+  }, []);
 
   return (
     <div>
