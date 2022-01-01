@@ -14,11 +14,11 @@ export const getActiveFieldById = (
   return fields?.find((field) => field.name === name);
 };
 
-export const getFormByFieldItemId = (
+export const getFormByFieldItemName = (
   form: formType | undefined,
-  id: string | undefined
+  name: string | undefined
 ): formType | undefined => {
-  const result = form?.fields.find((el) => el.name === id);
+  const result = form?.fields.find((el) => el.name === name);
   return result?.subForm;
 };
 

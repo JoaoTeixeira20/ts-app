@@ -1,6 +1,6 @@
 import { ReactElement, SyntheticEvent, useEffect, useState } from 'react'; // we need this to make JSX compile
 import { formType } from '../../../../configuration/configuration';
-import { getFormByFieldItemId } from '../../../../helpers/activeItemHelper';
+import { getFormByFieldItemName } from '../../../../helpers/activeItemHelper';
 
 import { itemComponentType } from '../../ItemComponent';
 import NestedFormComponent from '../../NestedFormComponent';
@@ -10,15 +10,19 @@ const RadioInput = (props: itemComponentType): ReactElement => {
 
   const onSelectChange = (event: SyntheticEvent<HTMLInputElement>) => {
     const id = event.currentTarget.dataset['key'];
-    setActiveItem(getFormByFieldItemId(props.subForm, id));
+    setActiveItem(getFormByFieldItemName(props.subForm, id));
     props.onChangeAction && props.onChangeAction(event);
   };
 
   useEffect(() => {
     setActiveItem(
-      getFormByFieldItemId(props.subForm, props.subForm?.fields[0].name)
+      getFormByFieldItemName(
+        props.subForm,
+        props.subForm?.fields.find((el) => el.value === props.defaultValue)
+          ?.name
+      )
     );
-  }, []);
+  }, [props.subForm]);
 
   return (
     <div>

@@ -3,7 +3,7 @@ import { itemComponentType } from '../../ItemComponent';
 import { formType } from '../../../../configuration/configuration';
 import {
   getActiveItemById,
-  getFormByFieldItemId,
+  getFormByFieldItemName,
   isActiveItem,
 } from '../../../../helpers/activeItemHelper';
 
@@ -18,8 +18,8 @@ const Tabs = (props: itemComponentType): ReactElement => {
   });
 
   const changeItems = (event: SyntheticEvent<HTMLDivElement>): void => {
-    const value = event.currentTarget.dataset['id'];
-    setActiveItem(getFormByFieldItemId(props.subForm, value));
+    const name = event.currentTarget.dataset['name'];
+    setActiveItem(getFormByFieldItemName(props.subForm, name));
   };
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Tabs = (props: itemComponentType): ReactElement => {
               isActive={isActiveItem(activeItem, subFormItem.subForm?.id)}
               onClick={changeItems}
               key={subFormItem.subForm?.id}
-              data-id={subFormItem.name}
+              data-name={subFormItem.name}
             >
               {subFormItem.label}
             </S.TabItem>

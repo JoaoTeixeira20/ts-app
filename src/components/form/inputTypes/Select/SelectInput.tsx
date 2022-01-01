@@ -1,6 +1,6 @@
-import { ReactElement, SyntheticEvent, useState } from 'react';
+import { ReactElement, SyntheticEvent, useEffect, useState } from 'react';
 import { itemComponentType } from '../../ItemComponent';
-import { getFormByFieldItemId } from '../../../../helpers/activeItemHelper';
+import { getFormByFieldItemName } from '../../../../helpers/activeItemHelper';
 import { formType } from '../../../../configuration/configuration';
 import NestedFormComponent from '../../NestedFormComponent';
 
@@ -9,10 +9,20 @@ const SelectInput = (props: itemComponentType): ReactElement => {
 
   const onSelectChange = (event: SyntheticEvent<HTMLSelectElement>) => {
     const selectedIndex: number = event.currentTarget.selectedIndex;
-    const id = event.currentTarget.options[selectedIndex].dataset['key'];
-    setActiveItem(getFormByFieldItemId(props.subForm, id));
+    const name = event.currentTarget.options[selectedIndex].dataset['name'];
+    setActiveItem(getFormByFieldItemName(props.subForm, name));
     props.onChangeAction && props.onChangeAction(event);
   };
+
+  useEffect(() => {
+    setActiveItem(
+      getFormByFieldItemName(
+        props.subForm,
+        props.subForm?.fields.find((el) => el.value === props.defaultValue)
+          ?.name
+      )
+    );
+  }, [props.subForm]);
 
   return (
     <>
@@ -29,8 +39,8 @@ const SelectInput = (props: itemComponentType): ReactElement => {
             return (
               <option
                 key={field.name}
-                data-key={field.name}
-                defaultValue={props.defaultValue}
+                data-name={field.name}
+                value={field.value}
               >
                 {field.label}
               </option>
