@@ -2,7 +2,6 @@ import { ReactElement, SyntheticEvent, useEffect, useState } from 'react'; // we
 import { itemComponentType } from '../../ItemComponent';
 import { formType } from '../../../../configuration/configuration';
 import {
-  getActiveItemById,
   getFormByFieldItemName,
   isActiveItem,
 } from '../../../../helpers/activeItemHelper';
@@ -13,18 +12,20 @@ import NestedFormComponent from '../../NestedFormComponent';
 const Tabs = (props: itemComponentType): ReactElement => {
   const [activeItem, setActiveItem] = useState<formType | undefined>();
 
-  const elementsForm = props.subForm?.fields.map((field) => {
-    return field.subForm as formType;
-  });
-
-  const changeItems = (event: SyntheticEvent<HTMLDivElement>): void => {
+  const changeItems = (event: SyntheticEvent<HTMLElement>): void => {
     const name = event.currentTarget.dataset['name'];
     setActiveItem(getFormByFieldItemName(props.subForm, name));
   };
 
   useEffect(() => {
-    setActiveItem(getActiveItemById(elementsForm, elementsForm?.[0].id));
-  }, []);
+    setActiveItem(
+      getFormByFieldItemName(
+        props.subForm,
+        props.subForm?.fields.find((el) => el.value === props.defaultValue)
+          ?.name
+      )
+    );
+  }, [props.subForm, props.defaultValue]);
 
   return (
     <>
@@ -33,9 +34,9 @@ const Tabs = (props: itemComponentType): ReactElement => {
           return (
             <S.TabItem
               isActive={isActiveItem(activeItem, subFormItem.subForm?.id)}
-              onClick={changeItems}
               key={subFormItem.subForm?.id}
               data-name={subFormItem.name}
+              onClick={changeItems}
             >
               {subFormItem.label}
             </S.TabItem>

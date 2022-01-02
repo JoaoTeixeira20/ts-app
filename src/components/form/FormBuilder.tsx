@@ -7,14 +7,14 @@ import {
 import CheckFormStateTest from '../testComponents/CheckFormStateTest';
 import FormComponent from './FormComponent';
 
+type formBuilderType = {
+  config: formType;
+};
+
 const Wrapper = () => {
   const { formConfig } = useContext(FormValuesContext);
 
   return <FormComponent content={formConfig} />;
-};
-
-type formBuilderType = {
-  config: formType;
 };
 
 const FormBuilder = (props: formBuilderType): ReactElement => {

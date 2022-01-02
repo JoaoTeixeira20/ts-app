@@ -245,12 +245,12 @@ export const formConfig: formType = {
                           fields: [
                             {
                               label: 'tabform4 text',
-                              name: 'tabform1text',
+                              name: 'tabform3text',
                               type: 'text',
                             },
                             {
                               label: 'tabform5 text',
-                              name: 'tabform2text',
+                              name: 'tabform4text',
                               type: 'text',
                             },
                           ],
@@ -307,12 +307,12 @@ export const formConfig: formType = {
               fields: [
                 {
                   label: 'tabform4 text',
-                  name: 'tabform1text',
+                  name: 'tabform3text',
                   type: 'text',
                 },
                 {
                   label: 'tabform5 text',
-                  name: 'tabform2text',
+                  name: 'tabform4text',
                   type: 'text',
                 },
               ],

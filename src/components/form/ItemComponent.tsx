@@ -90,7 +90,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
         return <RangeInput {...propsToInput} />;
       default:
         return (
-          <div style={{ color: 'red' }}>
+          <div style={{ color: 'orange' }}>
             WARNING: No implementation for {props.type}
           </div>
         );

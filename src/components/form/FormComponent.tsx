@@ -10,16 +10,16 @@ type formComponentType = {
   content: formType;
 };
 
-const FormBuilder = (props: formType): ReactElement => {
+const FormWrapper = (props: formType): ReactElement => {
   const { id } = useContext(FormPathContext);
 
   return (
-    <>
+    <div style={{ border: '2px dashed black' }}>
       <div style={{ border: '1px solid red', color: 'red' }}>form id: {id}</div>
       {props.fields.map((field) => {
         return <ItemComponent key={field.name} {...field}></ItemComponent>;
       })}
-    </>
+    </div>
   );
 };
 
@@ -27,7 +27,7 @@ const FormComponent = (props: formComponentType): ReactElement => {
   return (
     <>
       <FormPathContextConsumer id={props.content?.id}>
-        <FormBuilder {...props.content} />
+        <FormWrapper {...props.content} />
       </FormPathContextConsumer>
     </>
   );
