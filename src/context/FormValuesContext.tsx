@@ -1,4 +1,10 @@
-import { createContext, PropsWithChildren, useEffect, useState } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { formType } from '../configuration/configuration';
 import {
   getValueFromDotNotationIndex,
@@ -54,11 +60,14 @@ const FormValuesContextProvider = (
   const [validations] = useState<{ [k: string]: any }>(initialValidations);
   const [formConfig, setFormConfig] = useState<formType>(props.formConfig);
 
-  const mergeValues = (valueToMerge: {}) => {
-    const result = mergeDeep(values, valueToMerge);
-    setStoreValues(result);
-    setValues(result);
-  };
+  const mergeValues = useCallback(
+    (valueToMerge: {}) => {
+      const result = mergeDeep(values, valueToMerge);
+      setStoreValues(result);
+      setValues(result);
+    },
+    [values]
+  );
 
   const getValueFromPath = (
     basePath: string | undefined,
@@ -116,7 +125,7 @@ const FormValuesContextProvider = (
         e.message
       );
     }
-  }, []);
+  }, [mergeValues]);
 
   const setStoreValues = (values: {}): void => {
     window.electronAPI.storeData(JSON.stringify(values));

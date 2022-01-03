@@ -22,7 +22,7 @@ const RadioInput = (props: itemComponentType): ReactElement => {
           ?.name
       )
     );
-  }, [props.subForm]);
+  }, [props.subForm, props.defaultValue]);
 
   return (
     <div>

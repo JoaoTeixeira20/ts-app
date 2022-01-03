@@ -46,13 +46,13 @@ const ItemComponent = (props: fieldType): ReactElement => {
   >();
   const fieldidPath = `${id}.${props.name}`;
 
-  const setFieldMessages = async () => {
+  const setFieldMessages = useCallback(async () => {
     const validationType = getValidationFromPath(id, props.name);
     validationType &&
       setValidationMessages(
         await validations[validationType](getValueFromPath(id, props.name))
       );
-  };
+  }, [getValidationFromPath, getValueFromPath, id, props.name]);
 
   const onChangeAction = useCallback(
     async (
@@ -62,7 +62,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
       setValueOnPath(id, props.name, actionValue);
       setFieldMessages();
     },
-    [id, props.name, setValueOnPath]
+    [id, props.name, setValueOnPath, setFieldMessages]
   );
 
   const onFileChangeAction = useCallback(
@@ -84,7 +84,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
 
   useEffect(() => {
     setFieldMessages();
-  }, []);
+  }, [setFieldMessages]);
 
   const propsToInput: itemComponentType = {
     ...props,
