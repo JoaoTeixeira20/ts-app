@@ -38,12 +38,13 @@ export const getValueFromDotNotationIndex = (obj: any, index: string) => {
   return index.split('.').reduce((o, i) => o[i], obj);
 };
 
-export const buildDefaults = (form: formType): any => {
+export const buildDefaults = (form: formType, fieldKey: string): any => {
   const fields = {
     [form.id]: form.fields
       .map((field) => {
-        const fieldParam = { [field.name]: field.value || '' };
-        const subForms = field.subForm && buildDefaults(field.subForm);
+        const fieldParam = { [field.name]: field[fieldKey] || '' };
+        const subForms =
+          field.subForm && buildDefaults(field.subForm, fieldKey);
         return { ...fieldParam, ...subForms };
       })
       .reduce((prev, curr) => {

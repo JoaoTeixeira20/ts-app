@@ -1,6 +1,5 @@
 import { ReactElement, SyntheticEvent, useEffect, useState } from 'react'; // we need this to make JSX compile
-import { itemComponentType } from '../../ItemComponent';
-import { formType } from '../../../../configuration/configuration';
+import { fieldType, formType } from '../../../../configuration/configuration';
 import {
   getFormByFieldItemName,
   isActiveItem,
@@ -9,7 +8,7 @@ import {
 import * as S from './Tabs.styles';
 import NestedFormComponent from '../../NestedFormComponent';
 
-const Tabs = (props: itemComponentType): ReactElement => {
+const Tabs = (props: fieldType): ReactElement => {
   const [activeItem, setActiveItem] = useState<formType | undefined>();
 
   const changeItems = (event: SyntheticEvent<HTMLElement>): void => {

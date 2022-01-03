@@ -13,11 +13,16 @@ interface IFormContext {
   setFormConfig: (formConfig: formType) => void;
   // mergeValues: (valueToMerge: {}) => void;
   getValueFromPath: (basePath: string | undefined, fieldName: string) => string;
+  getValuesFromPath: (basePath: string | undefined) => { [name: string]: any };
   setValueOnPath: (
     basePath: string | undefined,
     fieldname: string,
     value: string
   ) => void;
+  getValidationFromPath: (
+    basePath: string | undefined,
+    fieldName: string
+  ) => string;
 }
 
 type FormValuesContextProps = {
@@ -29,8 +34,9 @@ const FormValuesContext = createContext({} as IFormContext);
 const FormValuesContextProvider = (
   props: PropsWithChildren<FormValuesContextProps>
 ) => {
+  const initialValidations = buildDefaults(props.formConfig, 'validation');
   const initialValues = () => {
-    const initialState = buildDefaults(props.formConfig);
+    const initialState = buildDefaults(props.formConfig, 'value');
     try {
       const valuesFromStore = JSON.parse(window.electronAPI.getData());
       return mergeDeep(initialState, valuesFromStore);
@@ -44,6 +50,8 @@ const FormValuesContextProvider = (
   };
 
   const [values, setValues] = useState<{ [k: string]: any }>(initialValues());
+  const [validations, setValidations] =
+    useState<{ [k: string]: any }>(initialValidations);
   const [formConfig, setFormConfig] = useState<formType>(props.formConfig);
 
   const mergeValues = (valueToMerge: {}) => {
@@ -62,6 +70,30 @@ const FormValuesContextProvider = (
     } catch (e: any) {
       console.log('problem with value initialization, desc:', e.message);
       mergeValues(strToObj(fieldPath, ''));
+      return '';
+    }
+  };
+
+  const getValuesFromPath = (
+    basePath: string | undefined
+  ): { [name: string]: any } => {
+    try {
+      return getValueFromDotNotationIndex(values, basePath || '');
+    } catch (e: any) {
+      console.log('problem retrieving values from the form, desc:', e.message);
+      return {};
+    }
+  };
+
+  const getValidationFromPath = (
+    basePath: string | undefined,
+    fieldName: string | undefined
+  ): string => {
+    const fieldPath = `${basePath}.${fieldName}`;
+    try {
+      return getValueFromDotNotationIndex(validations, fieldPath);
+    } catch (e: any) {
+      console.log('no validation avaliable, desc:', e.message);
       return '';
     }
   };
@@ -96,6 +128,8 @@ const FormValuesContextProvider = (
     setFormConfig,
     getValueFromPath,
     setValueOnPath,
+    getValidationFromPath,
+    getValuesFromPath,
   };
 
   return (

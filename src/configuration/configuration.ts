@@ -5,13 +5,18 @@ export type formType = {
   onSubmit?: (event: any) => void;
 };
 
-export type fieldType = {
+interface fieldParams {
+  [name: string]: any;
+}
+
+export type fieldType = fieldParams & {
   label: string;
   name: string;
   type: string;
   validation?: any;
   value?: string;
   subForm?: formType;
+  action?: string;
 };
 
 export const formConfig2: formType = {
@@ -327,10 +332,22 @@ export const formConfig: formType = {
       type: 'range',
     },
     {
-      label: 'input validation test',
-      name: 'inputvalidationtest',
-      type: 'text',
-      validation: 'testvalidation',
+      label: 'sum val 1',
+      name: 'sum1',
+      type: 'number',
+      validation: 'number',
+    },
+    {
+      label: 'sum val 2',
+      name: 'sum2',
+      type: 'number',
+      validation: 'number',
+    },
+    {
+      label: 'sum two values',
+      name: 'sumvalues',
+      type: 'button',
+      action: 'sumvalues',
     },
   ],
 };

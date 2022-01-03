@@ -18,6 +18,14 @@ const TextInput = ({ ...props }: itemComponentType): ReactElement => {
         onChange={props.onChangeAction}
         onBlur={onBlurAction}
       ></S.TextInput>
+      {props.validationMessages &&
+        props.validationMessages.map((message, index) => {
+          return (
+            <span key={index} style={{ color: 'red' }}>
+              {message}
+            </span>
+          );
+        })}
     </div>
   );
 };
