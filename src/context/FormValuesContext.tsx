@@ -6,6 +6,7 @@ import {
   strToObj,
   buildDefaults,
 } from '../helpers/utils';
+import { avaliableValidations } from '../validators/schemaValidators';
 
 interface IFormContext {
   values: {};
@@ -22,7 +23,7 @@ interface IFormContext {
   getValidationFromPath: (
     basePath: string | undefined,
     fieldName: string
-  ) => string;
+  ) => avaliableValidations;
 }
 
 type FormValuesContextProps = {
@@ -50,8 +51,7 @@ const FormValuesContextProvider = (
   };
 
   const [values, setValues] = useState<{ [k: string]: any }>(initialValues());
-  const [validations, setValidations] =
-    useState<{ [k: string]: any }>(initialValidations);
+  const [validations] = useState<{ [k: string]: any }>(initialValidations);
   const [formConfig, setFormConfig] = useState<formType>(props.formConfig);
 
   const mergeValues = (valueToMerge: {}) => {
@@ -88,13 +88,13 @@ const FormValuesContextProvider = (
   const getValidationFromPath = (
     basePath: string | undefined,
     fieldName: string | undefined
-  ): string => {
+  ): avaliableValidations => {
     const fieldPath = `${basePath}.${fieldName}`;
     try {
       return getValueFromDotNotationIndex(validations, fieldPath);
     } catch (e: any) {
       console.log('no validation avaliable, desc:', e.message);
-      return '';
+      return 'default';
     }
   };
 

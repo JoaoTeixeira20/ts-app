@@ -46,7 +46,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
   >();
   const fieldidPath = `${id}.${props.name}`;
 
-  const setMessages = async () => {
+  const setFieldMessages = async () => {
     const validationType = getValidationFromPath(id, props.name);
     validationType &&
       setValidationMessages(
@@ -60,7 +60,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
     ): Promise<void> => {
       const actionValue = event.currentTarget.value;
       setValueOnPath(id, props.name, actionValue);
-      setMessages();
+      setFieldMessages();
     },
     [id, props.name, setValueOnPath]
   );
@@ -83,7 +83,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
   };
 
   useEffect(() => {
-    setMessages();
+    setFieldMessages();
   }, []);
 
   const propsToInput: itemComponentType = {

@@ -1,3 +1,6 @@
+import { avaliableActions } from '../actions/actions';
+import { avaliableValidations } from '../validators/schemaValidators';
+
 export type formType = {
   id: string;
   label?: string;
@@ -13,10 +16,10 @@ export type fieldType = fieldParams & {
   label: string;
   name: string;
   type: string;
-  validation?: any;
+  validation?: avaliableValidations;
   value?: string;
   subForm?: formType;
-  action?: string;
+  action?: avaliableActions;
 };
 
 export const formConfig2: formType = {
@@ -33,7 +36,6 @@ export const formConfig2: formType = {
             label: 'input text',
             name: 'inputtext',
             type: 'text',
-            validation: 'collapseValidation',
           },
           {
             label: 'upload file',
@@ -115,7 +117,6 @@ export const formConfig: formType = {
             label: 'input text',
             name: 'inputtext',
             type: 'text',
-            validation: 'collapseValidation',
           },
           {
             label: 'upload file',
@@ -347,7 +348,7 @@ export const formConfig: formType = {
       label: 'sum two values',
       name: 'sumvalues',
       type: 'button',
-      action: 'sumvalues',
+      action: 'sumValues',
     },
   ],
 };

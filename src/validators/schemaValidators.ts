@@ -1,5 +1,7 @@
 import * as yup from 'yup';
 
+export type avaliableValidations = 'number' | 'default';
+
 const number = yup
   .number()
   .required('need to insert a number')
@@ -7,9 +9,7 @@ const number = yup
   .min(20, 'this field must be more than 20')
   .typeError('please insert a number');
 
-type validationType = {
-  [name: string]: any;
-};
+type validationType = Record<avaliableValidations, any>;
 
 export const validations: validationType = {
   number: (value: any) =>
@@ -21,4 +21,8 @@ export const validations: validationType = {
       .catch((err) => {
         return err.errors;
       }),
+  default: () => {
+    console.log('default validation');
+    return undefined;
+  },
 };
