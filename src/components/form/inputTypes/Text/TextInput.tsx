@@ -4,19 +4,21 @@ import { itemComponentType } from '../../ItemComponent';
 import * as S from './TextInput.styles';
 
 const TextInput = ({ ...props }: itemComponentType): ReactElement => {
-  const onBlurAction = (event: any) => {
-    console.log(event.currentTarget.value);
-  };
-
   return (
-    <div>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <label>{props.label}</label>
       <S.TextInput
         type={props.type}
         defaultValue={props.defaultValue}
         name={props.name}
-        onChange={props.onChangeAction}
-        onBlur={onBlurAction}
+        onBlur={props.onChangeAction}
       ></S.TextInput>
       {props.validationMessages &&
         props.validationMessages.map((message, index) => {

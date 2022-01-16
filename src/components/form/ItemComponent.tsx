@@ -45,14 +45,14 @@ const ItemComponent = (props: fieldType): ReactElement => {
     string[] | undefined
   >();
   const fieldidPath = `${id}.${props.name}`;
+  const validationSchema = getValidationFromPath(id, props.name);
+  const defaultValue = props.value || getValueFromPath(id, props.name);
 
   const setFieldMessages = useCallback(async () => {
-    const validationType = getValidationFromPath(id, props.name);
-    validationType &&
-      setValidationMessages(
-        await validations[validationType](getValueFromPath(id, props.name))
-      );
-  }, [getValidationFromPath, getValueFromPath, id, props.name]);
+    const currentValue = getValueFromPath(id, props.name);
+    validationSchema &&
+      setValidationMessages(await validations[validationSchema](currentValue));
+  }, [validationSchema, getValueFromPath, id, props.name]);
 
   const onChangeAction = useCallback(
     async (
@@ -83,15 +83,15 @@ const ItemComponent = (props: fieldType): ReactElement => {
   };
 
   useEffect(() => {
-    setFieldMessages();
-  }, [setFieldMessages]);
+    defaultValue && setFieldMessages();
+  }, [defaultValue, setFieldMessages]);
 
   const propsToInput: itemComponentType = {
     ...props,
     onChangeAction,
     onFileChangeAction,
     onClickAction,
-    defaultValue: props.value || getValueFromPath(id, props.name),
+    defaultValue,
     validationMessages,
   };
 
@@ -133,10 +133,10 @@ const ItemComponent = (props: fieldType): ReactElement => {
   };
 
   return (
-    <>
+    <div style={{ border: '1px solid green' }}>
       <div style={{ color: 'orange' }}>field id: {fieldidPath}</div>
       {getType(props)}
-    </>
+    </div>
   );
 };
 
