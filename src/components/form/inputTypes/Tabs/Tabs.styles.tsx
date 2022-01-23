@@ -10,7 +10,7 @@ const TabsContainer = styled.div`
   width: 100%;
 `;
 
-const TabItem = styled.label<tabItemType>`
+const TabItem = styled.input<tabItemType>`
   border: ${({ isActive }) =>
     isActive ? '2px solid black' : '1px solid gray'};
   padding: 10px;

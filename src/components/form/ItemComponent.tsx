@@ -98,7 +98,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
   const getType = (props: fieldType) => {
     switch (props.type) {
       case 'tabs':
-        return <Tabs {...props} />;
+        return <Tabs {...propsToInput} />;
       case 'text':
       case 'password':
       case 'email':

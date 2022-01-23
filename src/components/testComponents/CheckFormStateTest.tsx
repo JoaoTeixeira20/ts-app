@@ -67,6 +67,7 @@ const CheckFormStateTest = (): ReactElement => {
 
     const morphForm = buildFormPath(
       'mainform.selectoptions.option2form',
+      // 'mainform',
       formConfig,
       fieldsToAdd
     );

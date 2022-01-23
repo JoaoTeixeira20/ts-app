@@ -4,6 +4,7 @@ import { avaliableValidations } from '../validators/schemaValidators';
 export type formType = {
   id: string;
   label?: string;
+  active?: boolean;
   fields: fieldType[];
   onSubmit?: (event: any) => void;
 };

@@ -88,35 +88,30 @@ export const buildFormPath = (
   const splittedPath = path.split('.');
   const firstId = splittedPath.shift();
   const secondid = splittedPath.shift();
-  console.log('current path: ', path);
-  console.log('current splitted path: ', splittedPath.join('.'));
-  console.log('im trying to find: \n', secondid, '\non\n', form?.fields, '\n');
 
-  if (!secondid) {
-    return {
-      id: firstId || 'error',
-      fields: fieldsToAdd,
-    };
-  }
-
-  return {
-    id: firstId || 'error',
-    fields: form.fields.map((field) => {
-      if (field.subForm?.id === secondid && field.subForm) {
-        secondid && splittedPath.unshift(secondid);
-        return {
-          ...field,
-          subForm: buildFormPath(
-            splittedPath.join('.'),
-            field.subForm,
-            fieldsToAdd
-          ),
-        };
-      } else {
-        return field;
+  return !secondid
+    ? {
+        id: firstId || 'YouMustHaveaRootPathParameter',
+        fields: fieldsToAdd,
       }
-    }),
-  };
+    : {
+        id: firstId || 'YouMustHaveaRootPathParameter',
+        fields: form.fields.map((field) => {
+          if (field.subForm?.id === secondid && field.subForm) {
+            secondid && splittedPath.unshift(secondid);
+            return {
+              ...field,
+              subForm: buildFormPath(
+                splittedPath.join('.'),
+                field.subForm,
+                fieldsToAdd
+              ),
+            };
+          } else {
+            return field;
+          }
+        }),
+      };
 
   // const result = form?.fields.find((field) => {
   //   return field.subForm?.id === secondid;
