@@ -20,7 +20,7 @@ const Tabs = (props: itemComponentType): ReactElement => {
 
   useEffect(() => {
     setActiveValue(props.defaultValue || props.subForm?.fields[0].label);
-  }, []);
+  }, [props.defaultValue, props.subForm?.fields]);
 
   useEffect(() => {
     setActiveItem(

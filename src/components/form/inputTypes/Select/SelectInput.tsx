@@ -1,6 +1,9 @@
 import { ReactElement, SyntheticEvent, useEffect, useState } from 'react';
 import { itemComponentType } from '../../ItemComponent';
-import { getFormByFieldItemName } from '../../../../helpers/activeItemHelper';
+import {
+  getFormByFieldItemName,
+  getFormFieldByValue,
+} from '../../../../helpers/activeItemHelper';
 import { formType } from '../../../../configuration/configuration';
 import NestedFormComponent from '../../NestedFormComponent';
 
@@ -18,8 +21,7 @@ const SelectInput = (props: itemComponentType): ReactElement => {
     setActiveItem(
       getFormByFieldItemName(
         props.subForm,
-        props.subForm?.fields.find((el) => el.value === props.defaultValue)
-          ?.name
+        getFormFieldByValue(props.subForm, props.defaultValue)?.name
       )
     );
   }, [props.subForm, props.defaultValue]);
