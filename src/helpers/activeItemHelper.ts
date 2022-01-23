@@ -21,10 +21,3 @@ export const getFormByFieldItemName = (
   const result = form?.fields.find((el) => el.name === name);
   return result?.subForm;
 };
-
-export const isActiveItem = (
-  form: formType | undefined,
-  id: string | undefined
-): boolean => {
-  return form?.id === id;
-};
