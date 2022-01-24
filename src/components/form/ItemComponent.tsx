@@ -35,12 +35,8 @@ export type itemComponentType = fieldType & {
 
 const ItemComponent = (props: fieldType): ReactElement => {
   const { id } = useContext(FormPathContext);
-  const {
-    getValueFromPath,
-    setValueOnPath,
-    getValidationFromPath,
-    getValuesFromPath,
-  } = useContext(FormValuesContext);
+  const { getValueFromPath, setValueOnPath, getValidationFromPath, values } =
+    useContext(FormValuesContext);
   const [validationMessages, setValidationMessages] = useState<
     string[] | undefined
   >();
@@ -79,7 +75,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
   const onClickAction = (_: SyntheticEvent<HTMLInputElement>) => {
     // console.log('you clicked ', props?.name);
     // console.log('im on ', fieldidPath);
-    props.action && actions[props.action](getValuesFromPath(id));
+    props.action && actions[props.action](values, id);
   };
 
   useEffect(() => {
