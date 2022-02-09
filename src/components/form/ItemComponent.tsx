@@ -29,6 +29,7 @@ export type itemComponentType = fieldType & {
   ) => void;
   onFileChangeAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
   onClickAction?: (event: SyntheticEvent<HTMLInputElement>) => void;
+  directFieldValueChange?: (value: string | undefined) => void;
   defaultValue?: string;
   validationMessages: string[] | undefined;
 };
@@ -49,6 +50,13 @@ const ItemComponent = (props: fieldType): ReactElement => {
     validationSchema &&
       setValidationMessages(await validations[validationSchema](currentValue));
   }, [validationSchema, getValueFromPath, id, props.name]);
+
+  const directFieldValueChange = useCallback(
+    (value: string | undefined): void => {
+      setValueOnPath(id, props.name, value || '');
+    },
+    [id, props.name, setValueOnPath]
+  );
 
   const onChangeAction = useCallback(
     async (
@@ -87,6 +95,7 @@ const ItemComponent = (props: fieldType): ReactElement => {
     onChangeAction,
     onFileChangeAction,
     onClickAction,
+    directFieldValueChange,
     defaultValue,
     validationMessages,
   };

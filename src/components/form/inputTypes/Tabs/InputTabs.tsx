@@ -9,9 +9,10 @@ const Tabs = (props: itemComponentType): ReactElement => {
   const [activeValue, setActiveValue] = useState<string>();
   const [activeItem, setActiveItem] = useState<formType | undefined>();
 
-  const changeItems = (event: SyntheticEvent<HTMLInputElement>): void => {
-    setActiveValue(event.currentTarget.value);
-    props.onChangeAction && props.onChangeAction(event);
+  const handleClick = (event: SyntheticEvent<HTMLDivElement>): void => {
+    const value = event.currentTarget.dataset['name'];
+    setActiveValue(value);
+    props.directFieldValueChange && props.directFieldValueChange(value);
   };
 
   const isActiveValue = (currentValue: string = ''): boolean => {
@@ -19,12 +20,12 @@ const Tabs = (props: itemComponentType): ReactElement => {
   };
 
   useEffect(() => {
-    setActiveValue(props.defaultValue || props.subForm?.fields[0].label);
+    setActiveValue(props.defaultValue || props.subForm?.fields[0].name);
   }, [props.defaultValue, props.subForm?.fields]);
 
   useEffect(() => {
     setActiveItem(
-      props.subForm?.fields.find((el) => el.label === activeValue)?.subForm
+      props.subForm?.fields.find((el) => el.name === activeValue)?.subForm
     );
   }, [activeValue, props.subForm]);
 
@@ -33,13 +34,19 @@ const Tabs = (props: itemComponentType): ReactElement => {
       <S.TabsContainer>
         {props.subForm?.fields.map((subFormItem) => {
           return (
-            <S.TabItem
-              type='button'
-              isActive={isActiveValue(subFormItem.label)}
-              onClick={changeItems}
+            <div
+              style={{ width: '100%' }}
               key={subFormItem.subForm?.id}
-              value={subFormItem.label}
-            ></S.TabItem>
+              data-name={subFormItem.name}
+              onClick={handleClick}
+            >
+              <S.TabItem
+                type='button'
+                isActive={isActiveValue(subFormItem.name)}
+                key={subFormItem.subForm?.id}
+                value={subFormItem.label}
+              ></S.TabItem>
+            </div>
           );
         })}
       </S.TabsContainer>
